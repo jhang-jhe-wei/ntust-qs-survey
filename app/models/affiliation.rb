@@ -1,3 +1,3 @@
 class Affiliation < ApplicationRecord
-  has_one :country
+  belongs_to :country
 end
