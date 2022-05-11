@@ -1,0 +1,8 @@
+zh-TW:
+  activerecord:
+    models:
+      user: 使用者
+    attributes:
+      user:
+        ntust_department_id: 台科大單位
+        name: 姓名
