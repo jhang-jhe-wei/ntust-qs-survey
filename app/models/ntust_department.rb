@@ -1,0 +1,2 @@
+class NtustDepartment < ApplicationRecord
+end
