@@ -263,3 +263,6 @@ NtustDepartment.find_or_create_by(name: "營建系")
 NtustDepartment.find_or_create_by(name: "電機系")
 NtustDepartment.find_or_create_by(name: "應用科技學程")
 
+# Add all Institutions to database.
+Institution.find_or_create_by(name: "臺灣科技大學", country_id: Country.find_by_name("Taiwan, Province of China").id)
+
