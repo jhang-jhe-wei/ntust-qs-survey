@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_06_085707) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_110947) do
   create_table "affiliations", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "id"
     t.string "title"
@@ -88,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_06_085707) do
     t.bigint "industry_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
     t.index ["industry_id"], name: "index_recommenders_on_industry_id"
     t.index ["institution_id"], name: "index_recommenders_on_institution_id"
   end
