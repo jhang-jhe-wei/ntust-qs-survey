@@ -4,5 +4,6 @@ zh-TW:
       user: 使用者
     attributes:
       user:
+        email: 電子信箱
         ntust_department_id: 台科大單位
         name: 姓名
