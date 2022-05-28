@@ -76,4 +76,4 @@ group :test do
 end
 
 gem "devise"
-gem 'openbox'
+gem 'openbox',  git: 'https://github.com/jhang-jhe-wei/openbox.git'

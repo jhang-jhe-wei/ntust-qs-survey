@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/jhang-jhe-wei/openbox.git
+  revision: 947303b27fa4ba3ee9aa2d6b74ed2636af2890dc
+  specs:
+    openbox (0.5.1)
+      dotenv
+      thor (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -145,9 +153,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
-    openbox (0.5.1)
-      dotenv
-      thor (~> 1.0)
     orm_adapter (0.5.0)
     public_suffix (4.0.7)
     puma (5.6.4)
@@ -245,7 +250,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   mysql2 (~> 0.5)
-  openbox
+  openbox!
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.4)
   redis (~> 4.0)
