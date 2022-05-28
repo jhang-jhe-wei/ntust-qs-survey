@@ -4,7 +4,7 @@ ARG NODE_VERSION=14.18
 FROM ruby:${RUBY_VERSION}-alpine AS gem
 ARG APP_ROOT
 
-RUN apk add --no-cache build-base mariadb-dev
+RUN apk add --no-cache build-base mariadb-dev git
 
 RUN mkdir -p ${APP_ROOT}
 COPY Gemfile Gemfile.lock ${APP_ROOT}/
