@@ -5,6 +5,8 @@
 # files.
 
 require 'cucumber/rails'
+require_relative '../../db/seeds'
+require 'pry'
 
 # frozen_string_literal: true
 
@@ -33,6 +35,7 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
+  DatabaseCleaner.clean_with :truncation, except: %w[ntust_departments]
   DatabaseCleaner.strategy = :transaction
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
@@ -52,9 +55,16 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
-
+#
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+# Capybara.register_driver :selenium_chrome do |app|
+#   Capybara::Selenium::Driver.new(app, browser: :chrome)
+# end
+# Capybara.javascript_driver = :selenium_chrome
+# Capybara.default_max_wait_time = 1
+# Capybara.default_driver = :selenium_chrome
+# Capybara.default_driver = :selenium_chrome_headless

@@ -78,6 +78,8 @@ group :test do
   gem "webdrivers"
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'rspec-expectations'
+  gem 'pry'
 end
 
 gem "devise"

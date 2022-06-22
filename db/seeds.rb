@@ -259,7 +259,7 @@ Industry.find_or_create_by(name: "軟體業")
 Industry.find_or_create_by(name: "營建業")
 
 # Add all departments in NTUST to database.
-NtustDepartment.find_or_create_by(name: "營建系")
+NtustDepartment.find_or_create_by(name: "營建工程系")
 NtustDepartment.find_or_create_by(name: "電機系")
 NtustDepartment.find_or_create_by(name: "應用科技學程")
 
