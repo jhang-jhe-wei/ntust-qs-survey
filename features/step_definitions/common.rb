@@ -3,7 +3,9 @@ Given('there are a user belongs to {string} logged in') do |department_name|
   email = 'user@example.com'
   password = '123456+999'
 
-  @user = User.create(email: email, password: password, ntust_department_id: department.id)
+  @user = User.create!(email: email,
+                      password: password,
+                      ntust_department_id: department.id)
 
   visit new_user_session_path
   fill_in 'user_email', with: email
@@ -32,8 +34,16 @@ Then('I can see {string}') do |text|
   expect(page).to have_text(text)
 end
 
+Then('I can not see {string}') do |text|
+  expect(page).not_to have_text(text)
+end
+
 When('I click {string}') do |label|
   click_on(label)
+end
+
+When('I select {string} as {string}') do |label, option|
+  select option, from: label
 end
 
 When('I fill {string} form') do |form_name, table|

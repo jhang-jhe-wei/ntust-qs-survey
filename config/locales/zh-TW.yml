@@ -7,3 +7,16 @@ zh-TW:
         email: 電子信箱
         ntust_department_id: 台科大單位
         name: 姓名
+      recommender:
+        title: Title(稱謂)
+        first_name: First Name(名字)
+        last_name: Last Name(姓氏)
+        job_title: Position(職稱)
+        department: Department(所屬系所/單位名)
+        institution_id: Institution/Company Name(機構名稱)
+        industry_id: Industry(產業類別)
+        email: 電子信箱
+        provider_name: 提供此名單之教師姓名
+        provider_email: 提供此名單提供之教師通訊電郵
+        company_name: Company Name(公司名稱)
+        country: Country(所屬國家)

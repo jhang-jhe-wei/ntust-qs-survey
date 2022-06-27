@@ -79,7 +79,6 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'rspec-expectations'
-  gem 'pry'
 end
 
 gem "devise"

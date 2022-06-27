@@ -6,7 +6,6 @@
 
 require 'cucumber/rails'
 require_relative '../../db/seeds'
-require 'pry'
 
 # frozen_string_literal: true
 
@@ -50,11 +49,3 @@ ActionController::Base.allow_rescue = false
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-
-# Capybara.register_driver :selenium_chrome do |app|
-#   Capybara::Selenium::Driver.new(app, browser: :chrome)
-# end
-# Capybara.javascript_driver = :selenium_chrome
-# Capybara.default_max_wait_time = 1
-# Capybara.default_driver = :selenium_chrome
-# Capybara.default_driver = :selenium_chrome_headless

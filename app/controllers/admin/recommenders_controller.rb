@@ -8,9 +8,9 @@ class Admin::RecommendersController < Admin::BaseController
   end
 
   def create
-    @recommender = Recommender.new(recommender_params)
-    if @recommender.save
-      redirect_to recommenders_url, notice: "推薦者已建立"
+    @recommender = current_user.recommenders.create(recommender_params)
+    if @recommender.errors.empty?
+      redirect_to admin_recommenders_url, notice: "推薦者已建立"
     else
       render :new, status: :unprocessable_entity
     end
@@ -18,6 +18,6 @@ class Admin::RecommendersController < Admin::BaseController
 
   private
   def recommender_params
-    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id, :industry_id)
+    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id, :industry_id, :provider_email, :provider_name, :email)
   end
 end

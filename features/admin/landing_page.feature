@@ -1,4 +1,4 @@
-@landing_page
+@javascript
 Feature: Landing Page
 
   Scenario: The visitor can see some information
