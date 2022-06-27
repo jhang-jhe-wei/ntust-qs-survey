@@ -1,4 +1,8 @@
-class RecommendersController < ApplicationController
+class Admin::RecommendersController < Admin::BaseController
+  def index
+    @recommenders = Recommender.includes(:institution, :industry, :users).all
+  end
+
   def new
     @recommender = Recommender.new
   end

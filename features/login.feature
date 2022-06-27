@@ -13,4 +13,3 @@ Feature: Login
       | password | 12345678                 |
     And I click "Log in"
     Then I can see "成功登入了。"
-    And I can see "登入單位：營建工程系"

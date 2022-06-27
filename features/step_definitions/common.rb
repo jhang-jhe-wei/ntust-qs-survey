@@ -1,17 +1,16 @@
-# Given('there are a player logged in') do
-#   email = 'player@example.com'
-#   password = '123456+999'
-#
-#   @player = Player.create(email: email, password: password)
-#
-#   visit new_player_session_path
-#   fill_in 'player_email', with: email
-#   fill_in 'player_password', with: password
-#   click_on '登入'
-#
-#   visit game_root_path
-# end
-#
+Given('there are a user belongs to {string} logged in') do |department_name|
+  department = NtustDepartment.find_by_name(department_name)
+  email = 'user@example.com'
+  password = '123456+999'
+
+  @user = User.create(email: email, password: password, ntust_department_id: department.id)
+
+  visit new_user_session_path
+  fill_in 'user_email', with: email
+  fill_in 'user_password', with: password
+  click_on 'Log in'
+end
+
 Given('there are some users belong to {string}') do |department_name, table|
   department = NtustDepartment.find_by_name(department_name)
   table.hashes.each do |attrs|
