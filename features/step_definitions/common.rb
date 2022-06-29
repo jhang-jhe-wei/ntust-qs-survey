@@ -51,3 +51,7 @@ When('I fill {string} form') do |form_name, table|
     fill_in("#{form_name}_#{row['field']}", with: row['value'])
   end
 end
+
+When('I fill {string} with {string}') do |input, text|
+  fill_in(input, with: text)
+end

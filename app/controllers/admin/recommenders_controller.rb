@@ -8,7 +8,17 @@ class Admin::RecommendersController < Admin::BaseController
   end
 
   def create
-    @recommender = current_user.recommenders.create(recommender_params)
+    if params[:category] == '學術界'
+      @recommender = current_user.recommenders.create(recommender_params.merge(
+        industry_id: Industry.find_by_name('學術界').id
+      ))
+    else
+      institution = Institution.find_or_create_by(name: params[:company], country_id: params[:country])
+      @recommender = current_user.recommenders.create(recommender_params.merge(
+        department: nil,
+        institution_id: institution.id
+      ))
+    end
     if @recommender.errors.empty?
       redirect_to admin_recommenders_url, notice: "推薦者已建立"
     else

@@ -34,3 +34,37 @@ Feature: Create a recommender
       | department     | Department of Civil and Construction Engineering |
     And I can ensure the recommender's "institution" is "臺灣科技大學"
     And I can ensure the recommender's "industry" is "學術界"
+
+
+  Scenario: The user can create a "產業界" recommender
+    Given there are a user belongs to "營建工程系" logged in
+    When I visit "/admin/recommenders/new"
+    Then I can see "填寫名冊前請先閱讀以下說明，謝謝您"
+    When I select "category" as "產業界"
+    Then I can not see "Department(所屬系所/單位名)"
+    When I fill "recommender" form
+      | field          | value                     |
+      | provider_name  | 王小明                    |
+      | provider_email | abc@gmail.com             |
+      | title          | Dr.                       |
+      | first_name     | Yo-Ming                   |
+      | last_name      | Hsieh                     |
+      | email          | ymhsieh@mail.ntust.edu.tw |
+      | job_title      | Manager                   |
+    And I fill "company" with "ACER"
+    And I select "recommender_industry_id" as "電子業"
+    And I select "country" as "Taiwan"
+    And I click "名單提交"
+    Then I can see "推薦者已建立"
+    And I can ensure the recommender has these attributes
+      | field          | value                     |
+      | provider_name  | 王小明                    |
+      | provider_email | abc@gmail.com             |
+      | title          | Dr.                       |
+      | first_name     | Yo-Ming                   |
+      | last_name      | Hsieh                     |
+      | email          | ymhsieh@mail.ntust.edu.tw |
+      | job_title      | Manager                   |
+    And I can ensure the recommender's "institution" is "ACER"
+    And I can ensure the recommender's "industry" is "電子業"
+
