@@ -19,6 +19,7 @@ class Admin::RecommendersController < Admin::BaseController
         institution_id: institution.id
       ))
     end
+
     if @recommender.errors.empty?
       redirect_to admin_recommenders_url, notice: "推薦者已建立"
     else

@@ -2,7 +2,7 @@
 Feature: Landing Page
 
   Scenario: The visitor can see some information
-    Given there are a user belongs to "營建工程系" logged in
+    Given there is a user belongs to "營建工程系" logged in
     When I visit "/admin"
     Then I can see "登入單位：營建工程系"
     And I can see "登出"

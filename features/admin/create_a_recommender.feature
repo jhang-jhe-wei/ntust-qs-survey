@@ -2,7 +2,7 @@
 Feature: Create a recommender
 
   Scenario: The user can create a "學術界" recommender
-    Given there are a user belongs to "營建工程系" logged in
+    Given there is a user belongs to "營建工程系" logged in
     When I visit "/admin/recommenders/new"
     Then I can see "填寫名冊前請先閱讀以下說明，謝謝您"
     When I select "category" as "學術界"
@@ -37,7 +37,7 @@ Feature: Create a recommender
 
 
   Scenario: The user can create a "產業界" recommender
-    Given there are a user belongs to "營建工程系" logged in
+    Given there is a user belongs to "營建工程系" logged in
     When I visit "/admin/recommenders/new"
     Then I can see "填寫名冊前請先閱讀以下說明，謝謝您"
     When I select "category" as "產業界"

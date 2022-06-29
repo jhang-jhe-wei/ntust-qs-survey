@@ -1,4 +1,4 @@
-Given('there are a user belongs to {string} logged in') do |department_name|
+Given('there is a user belongs to {string} logged in') do |department_name|
   department = NtustDepartment.find_by_name(department_name)
   email = 'user@example.com'
   password = '123456+999'
