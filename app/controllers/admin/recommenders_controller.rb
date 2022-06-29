@@ -1,6 +1,8 @@
 class Admin::RecommendersController < Admin::BaseController
   def index
-    @recommenders = Recommender.includes(:institution, :industry, :users).all
+    recommenders = current_user.recommenders.includes(:institution, :industry, :users).all
+    @academic_recommenders = recommenders.where(industry_id: Industry.find_by_name('學術界').id)
+    @industry_recommenders = recommenders.where.not(industry_id: Industry.find_by_name('學術界').id)
   end
 
   def new
