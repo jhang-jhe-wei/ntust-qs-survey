@@ -33,7 +33,7 @@ Feature: Create a recommender
       | job_title      | Professor                                        |
       | department     | Department of Civil and Construction Engineering |
     And I can ensure the recommender's "institution" is "臺灣科技大學"
-    And I can ensure the recommender's "industry" is "學術界"
+    And I can ensure the recommender's "industry" is "Academic"
 
 
   Scenario: The user can create a "產業界" recommender
@@ -52,7 +52,7 @@ Feature: Create a recommender
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
     And I fill "company" with "ACER"
-    And I select "recommender_industry_id" as "電子業"
+    And I select "recommender_industry_id" as "Engineering"
     And I select "country" as "Taiwan"
     And I click "名單提交"
     Then I can see "推薦者已建立"
@@ -66,5 +66,5 @@ Feature: Create a recommender
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
     And I can ensure the recommender's "institution" is "ACER"
-    And I can ensure the recommender's "industry" is "電子業"
+    And I can ensure the recommender's "industry" is "Engineering"
 

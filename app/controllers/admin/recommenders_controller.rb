@@ -1,8 +1,9 @@
 class Admin::RecommendersController < Admin::BaseController
   def index
     recommenders = current_user.recommenders.includes(:institution, :industry, :users).all
-    @academic_recommenders = recommenders.where(industry_id: Industry.find_by_name('學術界').id)
-    @industry_recommenders = recommenders.where.not(industry_id: Industry.find_by_name('學術界').id)
+    # need to refactor
+    @academic_recommenders = recommenders.where(industry_id: Industry.find_by_name('Academic').id)
+    @industry_recommenders = recommenders.where.not(industry_id: Industry.find_by_name('Academic').id)
   end
 
   def new
@@ -12,7 +13,7 @@ class Admin::RecommendersController < Admin::BaseController
   def create
     if params[:category] == '學術界'
       @recommender = current_user.recommenders.create(recommender_params.merge(
-        industry_id: Industry.find_by_name('學術界').id
+        industry_id: Industry.find_by_name('Academic').id
       ))
     else
       institution = Institution.find_or_create_by(name: params[:company], country_id: params[:country])

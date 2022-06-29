@@ -12,12 +12,12 @@ FactoryBot.define do
 
     trait :academic do
       sequence(:department) { |n| "department#{n}" }
-      industry_id { Industry.find_by_name("學術界").id }
+      industry_id { Industry.find_by_name("Academic").id }
       institution_id { Institution.find_by_name("臺灣科技大學").id }
     end
 
     trait :industry do
-      industry_id { Industry.where.not(name: '學術界').first.id }
+      industry_id { Industry.where.not(name: 'Academic').first.id }
       institution_id { Institution.find_by_name("臺灣科技大學").id }
     end
   end
