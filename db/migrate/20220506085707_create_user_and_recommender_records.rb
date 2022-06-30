@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserAndRecommenderRecords < ActiveRecord::Migration[6.1]
   def change
     create_table :user_and_recommender_records do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('I can ensure the recommender has these attributes') do |table|
   @recommender = @user.recommenders.first
   table.hashes.each do |hash|

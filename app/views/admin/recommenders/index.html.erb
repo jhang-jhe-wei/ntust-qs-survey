@@ -5,7 +5,7 @@
 
 <p>單位：<%= @department.name %></p>
 <div class="container mx-auto">
-  <p>學術界名單，共計 <span style="color: red"><%= @academic_recommenders.count %></span> 筆</p>
+  <p>學術界名單，共計 <span style="color: red"><%= @recommenders.is_academic.count %></span> 筆</p>
   <table class="mt-10 table-auto">
     <thead>
       <tr>
@@ -25,7 +25,7 @@
     </thead>
 
     <tbody>
-      <% @academic_recommenders.each do |recommender| %>
+      <% @recommenders.is_academic.each do |recommender| %>
         <tr>
           <td><%= recommender.updated_at %></td>
           <td><%= NtustDepartment.includes(users: :recommenders).where(recommenders: { id: recommender.id }).pluck(:name).join("\n") %></td>
@@ -43,7 +43,7 @@
     </tbody>
   </table>
 
-  <p>產業界名單，共計 <span style="color: red"><%= @industry_recommenders.count %></span> 筆</p>
+  <p>產業界名單，共計 <span style="color: red"><%= @recommenders.is_industry.count %></span> 筆</p>
   <table class="mt-10 table-auto">
     <thead>
       <tr>
@@ -63,7 +63,7 @@
     </thead>
 
     <tbody>
-      <% @industry_recommenders.each do |recommender| %>
+      <% @recommenders.is_industry.each do |recommender| %>
         <tr>
           <td><%= recommender.updated_at %></td>
           <td><%= NtustDepartment.includes(users: :recommenders).where(recommenders: { id: recommender.id }).pluck(:name).join("\n") %></td>

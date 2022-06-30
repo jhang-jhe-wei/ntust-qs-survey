@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Add all departments in NTUST to database.
 college = NtustDepartment.find_or_create_by(name: '工程學院', role: 'college')
 college.departments.find_or_create_by(name: '自動化與控制研究所')

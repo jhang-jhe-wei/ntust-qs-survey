@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 Given('there is a user belongs to {string} logged in') do |department_name|
-  department = NtustDepartment.find_by_name(department_name)
+  department = NtustDepartment.find_by(name: department_name)
   email = 'user@example.com'
   password = '123456+999'
 
-  @user = User.create!(email: email,
-                      password: password,
-                      ntust_department_id: department.id)
+  @user = User.create!(email:,
+                       password:,
+                       ntust_department_id: department.id)
 
   visit new_user_session_path
   fill_in 'user_email', with: email
@@ -14,7 +16,7 @@ Given('there is a user belongs to {string} logged in') do |department_name|
 end
 
 Given('there are some users belong to {string}') do |department_name, table|
-  department = NtustDepartment.find_by_name(department_name)
+  department = NtustDepartment.find_by(name: department_name)
   table.hashes.each do |attrs|
     User.create! attrs.merge(
       ntust_department_id: department.id
@@ -22,8 +24,8 @@ Given('there are some users belong to {string}') do |department_name, table|
   end
 end
 
-Given('there are {int} users belong to {string}') do |quantity, department_name|
-  department = NtustDepartment.find_by_name(department_name)
+Given('there are {int} users belong to {string}') do |_quantity, department_name|
+  department = NtustDepartment.find_by(name: department_name)
   create_list(:user, 3, ntust_department_id: department.id)
 end
 

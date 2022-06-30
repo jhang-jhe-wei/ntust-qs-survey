@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Add all countries to database.
 Country.find_or_create_by(name: 'Afghanistan')
 Country.find_or_create_by(name: 'Aland Islands')

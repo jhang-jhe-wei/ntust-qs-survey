@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 class CreateAffiliations < ActiveRecord::Migration[6.1]
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table :affiliations, id: false do |t|
       t.bigint :id, options: 'PRIMARY KEY'
@@ -13,4 +16,5 @@ class CreateAffiliations < ActiveRecord::Migration[6.1]
     add_index :affiliations, :country_id
     add_foreign_key :affiliations, :countries
   end
+  # rubocop:enable Metrics/MethodLength
 end
