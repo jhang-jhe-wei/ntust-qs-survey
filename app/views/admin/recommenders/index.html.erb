@@ -1,3 +1,9 @@
+<%= form_tag admin_recommenders_url, id: "switch_department_form", method: "get" do %>
+  <%= label_tag(:department_id, "切換部門") %>
+  <%= select_tag :department_id, all_departments_options(@department.id) %>
+<% end %>
+
+<p>單位：<%= @department.name %></p>
 <div class="container mx-auto">
   <p>學術界名單，共計 <span style="color: red"><%= @academic_recommenders.count %></span> 筆</p>
   <table class="mt-10 table-auto">
@@ -76,3 +82,8 @@
   </table>
 
 </div>
+<script>
+  document.querySelector("#switch_department_form").addEventListener("change", function(){
+      this.submit();
+  })
+</script>

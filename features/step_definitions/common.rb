@@ -22,6 +22,11 @@ Given('there are some users belong to {string}') do |department_name, table|
   end
 end
 
+Given('there are {int} users belong to {string}') do |quantity, department_name|
+  department = NtustDepartment.find_by_name(department_name)
+  create_list(:user, 3, ntust_department_id: department.id)
+end
+
 When('I visit {string}') do |path|
   visit path
 end

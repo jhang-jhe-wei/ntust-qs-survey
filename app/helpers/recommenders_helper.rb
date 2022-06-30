@@ -17,4 +17,8 @@ module RecommendersHelper
       ["產業界", "產業界"]
     ])
   end
+
+  def all_departments_options(default=0)
+    options_for_select(current_user.department.departments.all.map{ |department| [department.name, department.id] }, default)
+  end
 end

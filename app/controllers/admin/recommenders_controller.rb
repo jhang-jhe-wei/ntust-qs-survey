@@ -1,6 +1,13 @@
 class Admin::RecommendersController < Admin::BaseController
   def index
-    recommenders = Recommender.includes(:institution, :industry, users: :department).where(users: { ntust_department_id: current_user.ntust_department_id }).all
+    @department = NtustDepartment.find_by(id: params[:department_id])
+    if @department
+      visibled_departments_ids = @department.departments.pluck(:id).append(@department.id) if (current_user.department.id == @department.id || current_user.department.departments.pluck(:id).include?(@department.id))
+    else
+      visibled_departments_ids = current_user.department.departments.pluck(:id).append(current_user.department.id)
+      @department = current_user.department
+    end
+    recommenders = Recommender.includes(:institution, :industry, users: :department).where(users: { ntust_department_id:  visibled_departments_ids})
     @academic_recommenders = recommenders.is_academic
     @industry_recommenders = recommenders.is_industry
   end
