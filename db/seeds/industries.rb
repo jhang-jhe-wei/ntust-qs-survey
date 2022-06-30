@@ -1,5 +1,4 @@
 # Add all Industry to database.
-Industry.find_or_create_by(name: "Academic")
 Industry.find_or_create_by(name: "Accounting & Finance")
 Industry.find_or_create_by(name: "Agriculture & Forestry")
 Industry.find_or_create_by(name: "Anatomy & Physiology")

@@ -1,9 +1,8 @@
 class Admin::RecommendersController < Admin::BaseController
   def index
-    recommenders = current_user.recommenders.includes(:institution, :industry, :users).all
-    # need to refactor
-    @academic_recommenders = recommenders.where(industry_id: Industry.find_by_name('Academic').id)
-    @industry_recommenders = recommenders.where.not(industry_id: Industry.find_by_name('Academic').id)
+    recommenders = Recommender.includes(:institution, :industry, users: :department).where(users: { ntust_department_id: current_user.ntust_department_id }).all
+    @academic_recommenders = recommenders.is_academic
+    @industry_recommenders = recommenders.is_industry
   end
 
   def new
@@ -11,9 +10,9 @@ class Admin::RecommendersController < Admin::BaseController
   end
 
   def create
-    if params[:category] == '學術界'
+    if recommender_params[:category] == '學術界'
       @recommender = current_user.recommenders.create(recommender_params.merge(
-        industry_id: Industry.find_by_name('Academic').id
+        industry_id: nil
       ))
     else
       institution = Institution.find_or_create_by(name: params[:company], country_id: params[:country])
@@ -32,6 +31,6 @@ class Admin::RecommendersController < Admin::BaseController
 
   private
   def recommender_params
-    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id, :industry_id, :provider_email, :provider_name, :email)
+    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id, :industry_id, :provider_email, :provider_name, :email, :category)
   end
 end
