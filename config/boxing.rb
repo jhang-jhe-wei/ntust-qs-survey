@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Boxing.config do |c|
   c.assets_precompile = true
   # If not given the `node -v` will be execute

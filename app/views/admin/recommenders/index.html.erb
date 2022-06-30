@@ -1,33 +1,89 @@
+<%= form_tag admin_recommenders_url, id: "switch_department_form", method: "get" do %>
+  <%= label_tag(:department_id, "切換部門") %>
+  <%= select_tag :department_id, all_departments_options(@department.id) %>
+<% end %>
+
+<p>單位：<%= @department.name %></p>
 <div class="container mx-auto">
-  <div class="mt-10">
-    <%= link_to '新增推薦者', new_recommender_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
-  </div>
+  <p>學術界名單，共計 <span style="color: red"><%= @recommenders.is_academic.count %></span> 筆</p>
   <table class="mt-10 table-auto">
     <thead>
       <tr>
-        <th>title</th>
-        <th>first_name</th>
-        <th>last_name</th>
-        <th>job_title</th>
-        <th>department</th>
-        <th>institution</th>
-        <th>industry</th>
+        <th>最後更新時間</th>
+        <th>登入單位</th>
+        <th>提供此名單之教師姓名</th>
+        <th>提供此名單之教師電郵</th>
+        <th>Title 稱謂</th>
+        <th>First Name 名字</th>
+        <th>Last Name 姓</th>
+        <th>Email</th>
+        <th>Department 部門</th>
+        <th>Institution 機構名稱</th>
+        <th>Position 稱謂</th>
         <th colspan="3"></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @recommenders.each do |recommender| %>
+      <% @recommenders.is_academic.each do |recommender| %>
         <tr>
+          <td><%= recommender.updated_at %></td>
+          <td><%= NtustDepartment.includes(users: :recommenders).where(recommenders: { id: recommender.id }).pluck(:name).join("\n") %></td>
+          <td><%= recommender.provider_name %></td>
+          <td><%= recommender.provider_email %></td>
           <td><%= recommender.title %></td>
           <td><%= recommender.first_name %></td>
           <td><%= recommender.last_name %></td>
-          <td><%= recommender.job_title %></td>
+          <td><%= recommender.email %></td>
           <td><%= recommender.department %></td>
           <td><%= recommender.institution.name %></td>
-          <td><%= recommender.industry.name %></td>
+          <td><%= recommender.job_title %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+
+  <p>產業界名單，共計 <span style="color: red"><%= @recommenders.is_industry.count %></span> 筆</p>
+  <table class="mt-10 table-auto">
+    <thead>
+      <tr>
+        <th>最後更新時間</th>
+        <th>登入單位</th>
+        <th>提供此名單之教師姓名</th>
+        <th>提供此名單之教師電郵</th>
+        <th>Title 稱謂</th>
+        <th>First Name 名字</th>
+        <th>Last Name 姓</th>
+        <th>Email</th>
+        <th>Department 部門</th>
+        <th>Institution 機構名稱</th>
+        <th>Position 稱謂</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @recommenders.is_industry.each do |recommender| %>
+        <tr>
+          <td><%= recommender.updated_at %></td>
+          <td><%= NtustDepartment.includes(users: :recommenders).where(recommenders: { id: recommender.id }).pluck(:name).join("\n") %></td>
+          <td><%= recommender.provider_name %></td>
+          <td><%= recommender.provider_email %></td>
+          <td><%= recommender.title %></td>
+          <td><%= recommender.first_name %></td>
+          <td><%= recommender.last_name %></td>
+          <td><%= recommender.email %></td>
+          <td><%= recommender.department %></td>
+          <td><%= recommender.institution.name %></td>
+          <td><%= recommender.job_title %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
 </div>
+<script>
+  document.querySelector("#switch_department_form").addEventListener("change", function(){
+      this.submit();
+  })
+</script>

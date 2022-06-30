@@ -1,4 +1,4 @@
-@login
+@javascript
 Feature: Login
   Background:
     When I open landing page

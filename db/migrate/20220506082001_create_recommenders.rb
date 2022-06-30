@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 class CreateRecommenders < ActiveRecord::Migration[6.1]
+  # rubocop:disable Metrics/MethodLength
   def change
     create_table :recommenders do |t|
       t.string :title
@@ -16,4 +19,5 @@ class CreateRecommenders < ActiveRecord::Migration[6.1]
     add_foreign_key :recommenders, :institutions
     add_foreign_key :recommenders, :industries
   end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -18,7 +18,7 @@ class TurboFailureApp < Devise::FailureApp
   end
 
   def skip_format?
-    %w(html turbo_stream */*).include? request_format.to_s
+    %w[html turbo_stream */*].include? request_format.to_s
   end
 end
 Devise.setup do |config|
@@ -27,7 +27,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'e9d853dec1446692e5968080d3266b83b6c937a0c14509b625d03ad0e79312fc8282433b0f906ea617ca1f95d305478f5e6c28985344cfdf7e5325a0c7a6bcdf'
+  # config.secret_key = ''
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -139,7 +139,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'e4830ea702232cc6c9dab33d7e06da2a4187a97f96cae6e8748578da7f85ee0b82e1b7004264847efc1044970ea47b1c7ebb2739a77c962a747344a98dd6f51e'
+  # config.pepper = ''
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false

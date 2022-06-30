@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 begin
-  DatabaseCleaner.clean_with :truncation, except: %w[ntust_departments]
-  DatabaseCleaner.strategy = :transaction
-  Around do |scenario, block|
-    DatabaseCleaner.cleaning(&block)
+  Before do |_|
+    DatabaseCleaner.strategy = [:truncation, { except: %w[ntust_departments countries institutions industries] }]
+  end
+
+  After do |_|
+    DatabaseCleaner.clean
+  end
+
+  AfterAll do |_|
+    DatabaseCleaner.clean_with :truncation
   end
 rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end

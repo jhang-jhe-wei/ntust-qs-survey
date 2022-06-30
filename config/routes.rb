@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  root to: "admin/recommenders#index"
-  resources :recommenders, only: [:new, :create]
+  root to: 'admin/recommenders#index'
+  resources :recommenders, only: %i[new create]
   namespace :admin do
-    root to: "recommenders#index"
-    resources :recommenders, only: [:index, :new, :create] do
+    root to: 'recommenders#index'
+    resources :recommenders, only: %i[index new create] do
       collection do
         get 'share'
         get 'upload', to: 'recommenders#upload_page'
