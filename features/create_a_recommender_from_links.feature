@@ -5,7 +5,7 @@ Feature: Create a recommender from the link
     Given there are 1 users belong to "營建工程系"
     When I open the new recommender link from "營建工程系" user
     Then I can see "填寫名冊前請先閱讀以下說明，謝謝您"
-    And I can see "登入單位：營建工程系"
+    And I can see "營建工程系"
     When I select "recommender_category" as "學術界"
     Then I can not see "Industry(產業類別)"
     And I can not see "Company Name(公司名稱)"
@@ -40,7 +40,7 @@ Feature: Create a recommender from the link
     Given there are 1 users belong to "機械工程系"
     When I open the new recommender link from "機械工程系" user
     Then I can see "填寫名冊前請先閱讀以下說明，謝謝您"
-    And I can see "登入單位：機械工程系"
+    And I can see "機械工程系"
     When I select "recommender_category" as "產業界"
     Then I can not see "Department(所屬系所/單位名)"
     When I fill "recommender" form
