@@ -11,6 +11,7 @@ class User < ApplicationRecord
   before_create :set_token
 
   private
+
   def set_token
     self.token = SecureRandom.base58(10)
   end

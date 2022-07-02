@@ -22,8 +22,7 @@ module Admin
       end
     end
 
-    def share
-    end
+    def share; end
 
     private
 

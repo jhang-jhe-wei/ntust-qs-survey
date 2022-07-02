@@ -4,11 +4,11 @@ class RecommendersController < ApplicationController
   def new
     @recommender = Recommender.new
     @user_token = params[:user_token]
-    @department_name = User.find_by_token(params[:user_token]).department.name
+    @department_name = User.find_by(token: params[:user_token]).department.name
   end
 
   def create
-    @recommender = User.find_by_token(params[:user_token]).recommenders.create(recommender_params)
+    @recommender = User.find_by(token: params[:user_token]).recommenders.create(recommender_params)
     if @recommender.errors.empty?
       redirect_to new_recommender_url(user_token: params[:user_token]), notice: '推薦者已建立'
     else
