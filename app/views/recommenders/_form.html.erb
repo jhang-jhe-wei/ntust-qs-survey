@@ -53,9 +53,9 @@
       <%= form.select :industry_id, all_industries_options, {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
-    <div id="company_name_block" class="contents">
+    <div id="company_name_block" class="contents" data-controller="autocomplete">
       <label class="self-center text-right" for="company"> Company Name(公司名稱) </label>
-      <input type="text" name="company" id="company" class="recommender-form-input", pattern: "[A-Za-z0-9]*" />
+      <input type="text" name="company" id="company" class="recommender-form-input", pattern="[A-Za-z0-9]*" data-autocomplete-target="company" />
     </div>
 
     <div id="country_block" class="contents">
