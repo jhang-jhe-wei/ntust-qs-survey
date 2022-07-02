@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     resources :recommenders, only: %i[index new create] do
       collection do
         get 'share'
-        get 'upload', to: 'recommenders#upload_page'
-        post 'upload', to: 'recommenders#upload'
+        get 'upload', to: 'recommenders#upload'
+        post 'upload_excel', to: 'recommenders#upload_excel'
         get 'download', to: 'recommenders#download_page'
-        post 'download', to: 'recommenders#download'
+        post 'download_excel', to: 'recommenders#download_excel'
+        get 'download_template_excel', to: 'recommenders#download_template_excel'
       end
     end
   end

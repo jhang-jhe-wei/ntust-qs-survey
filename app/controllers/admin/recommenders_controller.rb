@@ -24,6 +24,13 @@ module Admin
 
     def share; end
 
+    def upload
+    end
+
+    def download_template_excel
+      send_file Rails.root.join("public/qs-survey-recommenders-template.xlsx"), type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    end
+
     private
 
     def recommender_params
