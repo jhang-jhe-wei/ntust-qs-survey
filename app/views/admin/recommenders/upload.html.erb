@@ -1,1 +1,6 @@
+<%= form_tag({:action => :upload}, :multipart => true) do %>
+  <%= file_field_tag 'excel' %>
+  <%= submit_tag '匯入 Excel' %>
+<% end %>
 <%= link_to '填報表格檔案(Excel)', download_template_excel_admin_recommenders_path %>
+<p>※請依照指定檔案格式上傳，表格檔案請點選<span class="text-red-500">【填報表格檔案】</span>進行下載</p>

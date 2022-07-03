@@ -27,6 +27,18 @@ module Admin
     def upload
     end
 
+    def upload_excel
+      xlsx = Roo::Excelx.new(params[:excel])
+      recommenders = []
+      ActiveRecord::Base.transaction do
+        recommenders = Recommender.save_excel_data(xlsx)
+        recommenders.each {|rem| current_user.recommenders << rem }
+      end
+      success_count = Recommender.where(id: recommenders.pluck(:id)).is_done.count
+      pending_count = Recommender.where(id: recommenders.pluck(:id)).is_pending.count
+      redirect_to upload_admin_recommenders_path, notice: "成功匯入 #{success_count} 筆", alert:  "待修正 #{pending_count} 筆"
+    end
+
     def download_template_excel
       send_file Rails.root.join("public/qs-survey-recommenders-template.xlsx"), type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end

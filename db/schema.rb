@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_30_113116) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_03_063903) do
   create_table "affiliations", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "id"
     t.string "title"
@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_113116) do
     t.string "provider_name"
     t.string "provider_email"
     t.string "category"
+    t.string "status", default: "pending"
     t.index ["industry_id"], name: "index_recommenders_on_industry_id"
     t.index ["institution_id"], name: "index_recommenders_on_institution_id"
   end
