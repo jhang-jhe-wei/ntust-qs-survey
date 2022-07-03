@@ -2,6 +2,8 @@
 
 module Admin
   class RecommendersController < Admin::BaseController
+    before_action :set_recommender, only: [:edit, :update]
+
     def index
       @department = NtustDepartment.find_by(id: params[:department_id]) || current_user.department
       authorize @department
@@ -17,6 +19,19 @@ module Admin
 
       if @recommender.errors.empty?
         redirect_to admin_recommenders_url, notice: '推薦者已建立'
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
+    def edit
+    end
+
+    def update
+      @recommender.update(recommender_params)
+
+      if @recommender.errors.empty?
+        redirect_to upload_admin_recommenders_url, notice: '已更新推薦者'
       else
         render :new, status: :unprocessable_entity
       end
@@ -61,6 +76,10 @@ module Admin
     def base_params
       params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id,
                                           :provider_email, :provider_name, :email, :category)
+    end
+
+    def set_recommender
+      @recommender = current_user.department.visible_recommenders.find(params[:id])
     end
   end
 end
