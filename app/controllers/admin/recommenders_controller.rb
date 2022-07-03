@@ -2,7 +2,7 @@
 
 module Admin
   class RecommendersController < Admin::BaseController
-    before_action :set_recommender, only: [:edit, :update]
+    before_action :set_recommender, only: %i[edit update]
 
     def index
       @department = NtustDepartment.find_by(id: params[:department_id]) || current_user.department
@@ -24,8 +24,7 @@ module Admin
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       @recommender.update(recommender_params)
@@ -48,15 +47,16 @@ module Admin
       recommenders = []
       ActiveRecord::Base.transaction do
         recommenders = Recommender.save_excel_data(xlsx)
-        recommenders.each {|rem| current_user.recommenders << rem }
+        current_user.recommenders << recommenders
       end
-      success_count = Recommender.where(id: recommenders.pluck(:id)).is_done.count
-      pending_count = Recommender.where(id: recommenders.pluck(:id)).is_pending.count
-      redirect_to upload_admin_recommenders_path, notice: "成功匯入 #{success_count} 筆", alert:  "待修正 #{pending_count} 筆"
+      query = Recommender.where(id: recommenders.pluck(:id))
+      redirect_to upload_admin_recommenders_path, notice: "成功匯入 #{query.is_done.count} 筆",
+                                                  alert: "待修正 #{query.is_pending.count} 筆"
     end
 
     def download_template_excel
-      send_file Rails.root.join("public/qs-survey-recommenders-template.xlsx"), type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      send_file Rails.root.join('public/qs-survey-recommenders-template.xlsx'),
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
     private

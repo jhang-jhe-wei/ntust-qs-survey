@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given('there are {int} pending recommenders belong to {string} user') do |quantity, department_name|
   department = NtustDepartment.find_by(name: department_name)
   quantity.times do
