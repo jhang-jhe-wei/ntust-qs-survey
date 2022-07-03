@@ -2,10 +2,12 @@
 
 module Admin
   class RecommendersController < Admin::BaseController
+    before_action :set_recommender, only: %i[edit update]
+
     def index
       @department = NtustDepartment.find_by(id: params[:department_id]) || current_user.department
       authorize @department
-      @recommenders = @department.visible_recommenders
+      @recommenders = @department.visible_recommenders.is_done
     end
 
     def new
@@ -22,7 +24,40 @@ module Admin
       end
     end
 
+    def edit; end
+
+    def update
+      @recommender.update(recommender_params)
+
+      if @recommender.errors.empty?
+        redirect_to upload_admin_recommenders_url, notice: '已更新推薦者'
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def share; end
+
+    def upload
+      @pending_recommenders = current_user.department.visible_recommenders.is_pending
+    end
+
+    def upload_excel
+      xlsx = Roo::Excelx.new(params[:excel])
+      recommenders = []
+      ActiveRecord::Base.transaction do
+        recommenders = Recommender.save_excel_data(xlsx)
+        current_user.recommenders << recommenders
+      end
+      query = Recommender.where(id: recommenders.pluck(:id))
+      redirect_to upload_admin_recommenders_path, notice: "成功匯入 #{query.is_done.count} 筆",
+                                                  alert: "待修正 #{query.is_pending.count} 筆"
+    end
+
+    def download_template_excel
+      send_file Rails.root.join('public/qs-survey-recommenders-template.xlsx'),
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    end
 
     private
 
@@ -41,6 +76,10 @@ module Admin
     def base_params
       params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id,
                                           :provider_email, :provider_name, :email, :category)
+    end
+
+    def set_recommender
+      @recommender = current_user.department.visible_recommenders.find(params[:id])
     end
   end
 end

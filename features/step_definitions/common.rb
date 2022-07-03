@@ -62,3 +62,7 @@ end
 When('I fill {string} with {string}') do |input, text|
   fill_in(input, with: text)
 end
+
+When('I attach {string} in {string}') do |file_name, label|
+  attach_file(label, Rails.root.join("fixtures/#{file_name}"))
+end
