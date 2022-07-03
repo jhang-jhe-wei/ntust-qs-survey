@@ -21,6 +21,7 @@ class Recommender < ApplicationRecord
   validates_format_of :email,:with => Devise::email_regexp, unless: :pending?
   validates :provider_name, presence: true, unless: :pending?
   validates :provider_email, presence: true, unless: :pending?
+  before_save :set_status
 
   def self.save_excel_data(excel)
     recommenders = []
@@ -50,13 +51,12 @@ class Recommender < ApplicationRecord
     self.category == "學術界"
   end
 
-  def save
+  private
+  def set_status
     self.status = "done"
     self.status = "pending" if self.invalid?
-    super
   end
 
-  private
   def self.academic_attrs(row)
     institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"]).id
     common_attrs(row).merge(
