@@ -25,6 +25,7 @@ module Admin
     def share; end
 
     def upload
+      @pending_recommenders = current_user.department.visible_recommenders.is_pending
     end
 
     def upload_excel

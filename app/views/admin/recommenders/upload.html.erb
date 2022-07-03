@@ -4,3 +4,11 @@
 <% end %>
 <%= link_to '填報表格檔案(Excel)', download_template_excel_admin_recommenders_path %>
 <p>※請依照指定檔案格式上傳，表格檔案請點選<span class="text-red-500">【填報表格檔案】</span>進行下載</p>
+
+<% if @pending_recommenders.count > 0 %>
+  <p>目前有 <%= @pending_recommenders.count %> 筆資料需要修正後才可存入</p>
+<% else %>
+  <p>目前無待修正的資料</p>
+<% end %>
+
+<%= render 'table', recommenders: @pending_recommenders %>
