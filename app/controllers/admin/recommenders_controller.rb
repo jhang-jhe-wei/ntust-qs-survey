@@ -22,6 +22,8 @@ module Admin
       end
     end
 
+    def share; end
+
     private
 
     def recommender_params

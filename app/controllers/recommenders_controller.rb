@@ -3,12 +3,14 @@
 class RecommendersController < ApplicationController
   def new
     @recommender = Recommender.new
+    @user_token = params[:user_token]
+    @department_name = User.find_by(token: params[:user_token]).department.name
   end
 
   def create
-    @recommender = Recommender.new(recommender_params)
-    if @recommender.save
-      redirect_to recommenders_url, notice: '推薦者已建立'
+    @recommender = User.find_by(token: params[:user_token]).recommenders.create(recommender_params)
+    if @recommender.errors.empty?
+      redirect_to new_recommender_url(user_token: params[:user_token]), notice: '推薦者已建立'
     else
       render :new, status: :unprocessable_entity
     end
@@ -17,7 +19,19 @@ class RecommendersController < ApplicationController
   private
 
   def recommender_params
+    if base_params[:category] == '產業界'
+      institution = Institution.find_or_create_by(name: params[:company], country_id: params[:country])
+      return base_params.merge!(
+        department: nil,
+        institution_id: institution.id,
+        industry_id: params[:recommender][:industry_id]
+      )
+    end
+    base_params
+  end
+
+  def base_params
     params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id,
-                                        :industry_id)
+                                        :provider_email, :provider_name, :email, :category)
   end
 end

@@ -1,8 +1,7 @@
-<%= form_with(model: recommender, class: "px-8 pt-6 pb-8 my-4 bg-white rounded shadow-md") do |form| %>
+<%= form_with(model: recommender) do |form| %>
   <% if recommender.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(recommender.errors.count, "error") %> prohibited this recommender from being saved:</h2>
-
       <ul>
         <% recommender.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,42 +10,98 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <%= form.label :title, class:"block mb-2 text-sm font-bold text-gray-700"%>
-    <%= form.text_field :title, class: "w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" %>
+  <div class="max-w-3xl mt-20 grid gap-9 grid-cols-min-contect-and-auto">
+    <span class="self-center text-right whitespace-nowrap">登入單位</span>
+    <span class=""><%= @department_name %></span>
+
+    <%= form.label :provider_name, class: "recommender-form-label" %>
+    <%= form.text_field :provider_name, class: "recommender-form-input", placeholder: "教師姓名", required: true %>
+
+    <%= form.label :provider_email, class: "recommender-form-label"%>
+    <%= form.email_field :provider_email, class: "recommender-form-input", placeholder: "教師通訊電郵", required: true %>
+
+    <%= form.label :category, class: "recommender-form-label" %>
+    <%= form.select :category, all_categories_options, {}, class: "recommender-form-select"%>
+
+    <%= form.label :title, class: "recommender-form-label"%>
+    <%= form.text_field :title, class: "recommender-form-input", placeholder: "Title", pattern: "[A-Za-z0-9.]*", required: true %>
+
+    <%= form.label :first_name, class: "recommender-form-label"%>
+    <%= form.text_field :first_name, class: "recommender-form-input", placeholder: "First Name", pattern: "[A-Za-z0-9-]*", required: true %>
+
+    <%= form.label :last_name, class: "recommender-form-label"%>
+    <%= form.text_field :last_name, class: "recommender-form-input", placeholder: "Last Name", pattern: "[A-Za-z0-9]*", required: true %>
+
+    <%= form.label :email, class: "recommender-form-label"%>
+    <%= form.email_field :email, class: "recommender-form-input", placeholder: "Email", required: true %>
+
+    <%= form.label :job_title, class:"recommender-form-label"%>
+    <%= form.text_field :job_title, class: "recommender-form-input", placeholder: "Position", pattern: "[A-Za-z0-9]*", required: true %>
+
+    <div id="department_block" class="contents">
+      <%= form.label :department, class:"recommender-form-label"%>
+      <%= form.text_field :department, class: "recommender-form-input", placeholder: "Department", pattern: "[A-Za-z0-9 ]*" %>
+    </div>
+
+    <div id="institution_block" class="contents">
+      <%= form.label :institution_id, class: "recommender-form-label"%>
+      <%= form.select :institution_id, all_institutions_options, {}, class: "recommender-form-select", placeholder: "請選擇"%>
+    </div>
+
+    <div id="industry_block" class="contents">
+      <%= form.label :industry_id, class: "recommender-form-label" %>
+      <%= form.select :industry_id, all_industries_options, {}, class: "recommender-form-select", placeholder: "請選擇"%>
+    </div>
+
+    <div id="company_name_block" class="contents" data-controller="autocomplete">
+      <label class="self-center text-right" for="company"> Company Name(公司名稱) </label>
+      <input type="text" name="company" id="company" class="recommender-form-input", pattern="[A-Za-z0-9]*" data-autocomplete-target="company" />
+    </div>
+
+    <div id="country_block" class="contents">
+    <label class="self-center text-right" for="country"> Country(所屬國家) </label>
+    <select name="country" id="country" class="recommender-form-input">
+      <%= all_countries_options %>
+    </select>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :first_name, class:"block mb-2 text-sm font-bold text-gray-700"%>
-    <%= form.text_field :first_name, class: "w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" %>
   </div>
+  <input name="user_token" type="hidden" value="<%= @user_token %>">
 
-  <div class="mb-4">
-    <%= form.label :last_name, class:"block mb-2 text-sm font-bold text-gray-700"%>
-    <%= form.text_field :last_name, class: "w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :job_title, class:"block mb-2 text-sm font-bold text-gray-700"%>
-    <%= form.text_field :job_title, class: "w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :department, class:"block mb-2 text-sm font-bold text-gray-700"%>
-    <%= form.text_field :department, class: "w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" %>
-  </div>
-
-  <div class="mt-4">
-    <%= form.label :institution_id %><br />
-    <%= form.select :institution_id, all_institutions_options, {}, class: "form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"%>
-  </div>
-
-  <div class="mt-4">
-    <%= form.label :industry_id %><br />
-    <%= form.select :industry_id, all_industries_options, {}, class: "form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"%>
-  </div>
-
-  <div class="flex items-center justify-between mt-4">
-    <%= form.submit "新增", class: "px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline" %>
-  </div>
+  <%= form.submit '名單提交', class: "py-1 px-5 text-white bg-blue-700 border-2 border-blue-700 rounded-3xl hover:text-blue-700 hover:bg-white mt-20 ml-64 mb-60" %>
 <% end %>
+
+<script>
+const industry = document.querySelector('#industry_block')
+const department = document.querySelector('#department_block')
+const country = document.querySelector('#country_block')
+const company_name = document.querySelector('#company_name_block')
+const institution = document.querySelector('#institution_block')
+document.querySelector("#recommender_category").addEventListener("change", function(e){
+  changeDisplay(e.target.value);
+})
+
+window.onload = changeDisplay('學術界');
+
+function changeDisplay(category){
+  industry.style.display = 'none'
+  department.style.display = 'none'
+  country.style.display = 'none'
+  company_name.style.display = 'none'
+  institution.style.display = 'none'
+  if(category === '學術界') {
+    department.style.display = 'contents'
+    institution.style.display = 'contents'
+  }else {
+    industry.style.display = 'contents'
+    country.style.display = 'contents'
+    company_name.style.display = 'contents'
+  }
+}
+
+var elements = document.querySelectorAll('input,select,textarea');
+var invalidListener = function(){ this.scrollIntoView(false); };
+
+for(var i = elements.length; i--;)
+    elements[i].addEventListener('invalid', invalidListener);
+</script>
