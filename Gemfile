@@ -89,3 +89,4 @@ gem 'openbox', git: 'https://github.com/jhang-jhe-wei/openbox.git'
 gem 'rails-i18n', '~> 7.0.0' # For 7.0.0
 
 gem 'pundit', '~> 2.2'
+gem "roo", "~> 2.9.0"
