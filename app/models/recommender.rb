@@ -62,7 +62,7 @@ class Recommender < ApplicationRecord
     def academic_attrs(row)
       institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"]).id
       common_attrs(row).merge(
-        institution_id:,
+        institution_id: institution_id,
         department: row["Department\n所屬系所/單位名"],
         category: '學術界'
       )
@@ -74,8 +74,8 @@ class Recommender < ApplicationRecord
                                                      country_id:).id
       industry_id = Industry.find_by(name: row["Industry\n產業別(下拉式選單)"])
       common_attrs(row).merge(
-        institution_id:,
-        industry_id:,
+        institution_id: institution_id,
+        industry_id: industry_id,
         category: '產業界'
       )
     end
