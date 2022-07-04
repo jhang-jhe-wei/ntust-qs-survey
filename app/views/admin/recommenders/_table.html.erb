@@ -32,7 +32,7 @@
           <td><%= recommender.email %></td>
           <td><%= recommender.department %></td>
           <td><%= recommender.industry&.name %></td>
-          <td><%= recommender.institution.name %></td>
+          <td><%= recommender.institution&.name %></td>
           <td><%= recommender.job_title %></td>
           <td><% if recommender.pending? %><%= link_to '修改', edit_admin_recommender_path(recommender.id) %><% end %></td>
         </tr>
