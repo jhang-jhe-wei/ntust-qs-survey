@@ -12,7 +12,7 @@ module Admin
 
     def new
       @recommender = Recommender.new
-      @department_name = current_user.department
+      @department_name = current_user.department.name
     end
 
     def create
