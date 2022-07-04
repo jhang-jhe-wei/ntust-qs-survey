@@ -1,16 +1,25 @@
 # frozen_string_literal: true
 
 class NtustDepartment < ApplicationRecord
+  ROLES = %w[department college admin].freeze
+
+  ROLES.each do |role|
+    define_method("#{role}?") do
+      self.role == role
+    end
+  end
+
   has_many :users, dependent: :destroy
   has_many :departments, class_name: 'NtustDepartment', foreign_key: 'college_id', dependent: :destroy,
                          inverse_of: :college
   belongs_to :college, class_name: 'NtustDepartment', optional: true, inverse_of: :departments
-  after_save :set_college_id, if: :role_is_college?
+  after_save :set_college_id, if: :college?
+  validates :role, inclusion: { in: ROLES }
 
   def self_or_departments
-    return [self] if departments.empty?
-
-    departments
+    return [self] if department?
+    return NtustDepartment.all if admin?
+    return departments if college?
   end
 
   def visible_recommenders
@@ -18,10 +27,6 @@ class NtustDepartment < ApplicationRecord
   end
 
   private
-
-  def role_is_college?
-    role == 'college'
-  end
 
   def set_college_id
     # rubocop:disable Rails/SkipsModelValidations
