@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NtustDepartment < ApplicationRecord
-  ROLES = ['department', 'college', 'admin']
+  ROLES = %w[department college admin].freeze
 
   ROLES.each do |role|
     define_method("#{role}?") do
@@ -16,7 +16,6 @@ class NtustDepartment < ApplicationRecord
   after_save :set_college_id, if: :college?
   validates :role, inclusion: { in: ROLES }
 
-
   def self_or_departments
     return [self] if department?
     return NtustDepartment.all if admin?
@@ -28,6 +27,7 @@ class NtustDepartment < ApplicationRecord
   end
 
   private
+
   def set_college_id
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:college_id, id)
