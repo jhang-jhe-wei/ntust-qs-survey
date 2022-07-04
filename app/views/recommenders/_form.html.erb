@@ -21,7 +21,7 @@
     <%= form.email_field :provider_email, class: "recommender-form-input", placeholder: "教師通訊電郵", required: true %>
 
     <%= form.label :category, class: "recommender-form-label" %>
-    <%= form.select :category, all_categories_options, {}, class: "recommender-form-select"%>
+    <%= form.select :category, all_categories_options(recommender.category), {}, class: "recommender-form-select"%>
 
     <%= form.label :title, class: "recommender-form-label"%>
     <%= form.text_field :title, class: "recommender-form-input", placeholder: "Title", pattern: "[A-Za-z0-9.]*", required: true %>
@@ -45,12 +45,12 @@
 
     <div id="institution_block" class="contents">
       <%= form.label :institution_id, class: "recommender-form-label"%>
-      <%= form.select :institution_id, all_institutions_options, {}, class: "recommender-form-select", placeholder: "請選擇"%>
+      <%= form.select :institution_id, all_institutions_options(recommender.institution_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
     <div id="industry_block" class="contents">
       <%= form.label :industry_id, class: "recommender-form-label" %>
-      <%= form.select :industry_id, all_industries_options, {}, class: "recommender-form-select", placeholder: "請選擇"%>
+      <%= form.select :industry_id, all_industries_options(recommender.industry_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
     <div id="company_name_block" class="contents" data-controller="autocomplete">
@@ -61,7 +61,7 @@
     <div id="country_block" class="contents">
     <label class="self-center text-right" for="country"> Country(所屬國家) </label>
     <select name="country" id="country" class="recommender-form-input">
-      <%= all_countries_options %>
+      <%= all_countries_options(recommender.institution&.country&.id) %>
     </select>
   </div>
 
