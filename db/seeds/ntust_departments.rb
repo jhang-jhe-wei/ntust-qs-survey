@@ -44,3 +44,10 @@ college.departments.find_or_create_by(name: '醫學工程研究所')
 college.departments.find_or_create_by(name: '專利研究所')
 college.departments.find_or_create_by(name: '色彩與照明科技研究所')
 college.departments.find_or_create_by(name: '應用科技學士學位學程')
+
+NtustDepartment.find_or_create_by(name: '學務處就輔組', role: 'department')
+NtustDepartment.find_or_create_by(name: '國際處', role: 'department')
+NtustDepartment.find_or_create_by(name: '秘書室校友組', role: 'department')
+NtustDepartment.find_or_create_by(name: '產學處', role: 'department')
+
+NtustDepartment.find_or_create_by(name: '校務研究與發展中心', role: 'admin')
