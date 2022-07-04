@@ -1,0 +1,22 @@
+<ul class="fixed w-1/6 pr-4">
+  <li class="py-3 text-center border-b border-gray-100 hover:bg-gray-100">
+    <%= link_to '名冊填報', new_admin_recommender_path, class: 'block' %>
+  </li>
+  <li class="py-3 text-center border-b border-gray-100 hover:bg-gray-100">
+    <%= link_to '檢視名冊', admin_recommenders_path, class: 'block' %>
+  </li>
+  <li class="py-3 text-center border-b border-gray-100 hover:bg-gray-100">
+    <%= link_to '產生問卷連結', share_admin_recommenders_path, class: 'block' %>
+  </li>
+  <li class="py-3 text-center border-b border-gray-100 hover:bg-gray-100">
+    <%= link_to '名單匯入', upload_admin_recommenders_path, class: 'block' %>
+  </li>
+  <li class="py-3 text-center border-b border-gray-100 hover:bg-gray-100">
+    <%= link_to '名單匯出', download_admin_recommenders_path, class: 'block' %>
+  </li>
+  <% if current_user %>
+    <li class="py-3 border-b border-gray-100 hover:bg-gray-100">
+      <%= button_to '登出', destroy_user_session_path, method: :delete, class: 'w-full block mx-auto' %>
+    </li>
+  <% end %>
+</ul>

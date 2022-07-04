@@ -10,9 +10,6 @@
           <li class="mr-4 text-lg text-white">
             登入單位：<%= current_user.department.name %>
           </li>
-          <li>
-            <%= button_to "登出", destroy_user_session_path, method: :delete, class: "block text-lg text-gray-500 hover:bg-gray-50 hover:text-white md:dark:hover:bg-transparent"%>
-          </li>
         <% end %>
       </ul>
     </div>
