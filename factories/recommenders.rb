@@ -10,6 +10,7 @@ FactoryBot.define do
     provider_email { 'provider@gmail.com' }
     job_title { 'Professor' }
     department { 'HR' }
-    institution_id { Institution.find_by(name: '臺灣科技大學').id }
+    institution_id { Institution.first.id }
+    industry_id { Industry.first.id }
   end
 end

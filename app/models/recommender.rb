@@ -11,42 +11,37 @@ class Recommender < ApplicationRecord
   scope :is_done, -> { where(status: 'done') }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
-  validates :title, presence: true, unless: :pending?
-  validates :first_name, presence: true, unless: :pending?
-  validates :last_name, presence: true, unless: :pending?
-  validates :job_title, presence: true, unless: :pending?
-  validates :department, presence: true, unless: :pending_or_industry?
-  validates_associated :institution, unless: :pending?
-  validates_associated :industry, unless: :pending_or_academic?
-  validates :email, format: { with: Devise.email_regexp, unless: :pending? }
-  validates :provider_name, presence: true, unless: :pending?
-  validates :provider_email, presence: true, unless: :pending?
-  after_initialize do |recommender|
-    recommender.status = "done"
-  end
+  validates :title, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :job_title, presence: true
+  validates :department, presence: true, if: :academic?
+  validates_associated :institution
+  validates_associated :industry, if: :industry?
+  validates :email, format: { with: Devise.email_regexp }
+  validates :provider_name, presence: true
+  validates :provider_email, presence: true
+  after_validation :set_status
 
-  def self.save_excel_data(excel)
-    recommenders = []
-    excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommender = Recommender.new(academic_attrs(row))
-      recommender.status = 'pending' if recommender.invalid?
-      recommenders << recommender
+  class << self
+    def save_excel_data(excel)
+      recommenders = []
+      excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
+        recommenders << create_or_set_pending_create(academic_attrs(row))
+      end
+
+      excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
+        recommenders << create_or_set_pending_create(industry_attrs(row))
+      end
+      recommenders
     end
 
-    excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommender = Recommender.new(industry_attrs(row))
+    def create_or_set_pending_create(attrs)
+      recommender = Recommender.new(attrs)
       recommender.status = 'pending' if recommender.invalid?
-      recommenders << recommender
+      recommender.save(validate: false)
+      recommender
     end
-    recommenders
-  end
-
-  def pending_or_academic?
-    pending? || academic?
-  end
-
-  def pending_or_industry?
-    pending? || !academic?
   end
 
   def pending?
@@ -57,10 +52,20 @@ class Recommender < ApplicationRecord
     category == '學術界'
   end
 
+  def industry?
+    category == '產業界'
+  end
+
   private
+
+  def set_status
+    return false if errors.any?
+
+    self.status = 'done'
+  end
   class << self
     def academic_attrs(row)
-      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"]).id
+      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"])&.id
       common_attrs(row).merge(
         institution_id: institution_id,
         department: row["Department\n所屬系所/單位名"],
@@ -69,10 +74,12 @@ class Recommender < ApplicationRecord
     end
 
     def industry_attrs(row)
-      country_id = Country.find_by(name: row["Location\n所處國別"])
+      country_id = Country.find_by(name: row["Location\n所處國別"])&.id
       institution_id = Institution.find_or_create_by(name: row["Company Name\n所屬公司/機構名"],
-                                                     country_id:).id
-      industry_id = Industry.find_by(name: row["Industry\n產業別(下拉式選單)"])
+                                                     country_id: country_id)&.id
+      industry_id = Industry.find_by(name: row["Industry\n產業別(下拉式選單)"].strip)&.id
+      puts row["Industry\n產業別(下拉式選單)"]
+      puts industry_id
       common_attrs(row).merge(
         institution_id: institution_id,
         industry_id: industry_id,

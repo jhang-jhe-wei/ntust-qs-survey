@@ -17,7 +17,7 @@ class NtustDepartment < ApplicationRecord
   validates :role, inclusion: { in: ROLES }
 
   def self_or_departments
-    return NtustDepartment.where(id: self.id) if department?
+    return NtustDepartment.where(id:) if department?
     return NtustDepartment.all if admin?
     return departments if college?
   end
