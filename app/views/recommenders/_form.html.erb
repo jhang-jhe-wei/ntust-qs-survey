@@ -1,7 +1,7 @@
 <%= form_with(model: recommender) do |form| %>
   <% if recommender.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(recommender.errors.count, "error") %> prohibited this recommender from being saved:</h2>
+    <div class="p-4 mt-4 text-orange-700 bg-orange-100 border-l-4 border-orange-500" id="error_explanation">
+      <h2><%= pluralize(recommender.errors.count, "個錯誤") %> 該推薦人因以下原因無法儲存:</h2>
       <ul>
         <% recommender.errors.each do |error| %>
           <li><%= error.full_message %></li>
