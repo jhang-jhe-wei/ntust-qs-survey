@@ -11,42 +11,34 @@ class Recommender < ApplicationRecord
   scope :is_done, -> { where(status: 'done') }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
-  validates :title, presence: true, unless: :pending?
-  validates :first_name, presence: true, unless: :pending?
-  validates :last_name, presence: true, unless: :pending?
-  validates :job_title, presence: true, unless: :pending?
-  validates :department, presence: true, unless: :pending_or_industry?
-  validates_associated :institution, unless: :pending?
-  validates_associated :industry, unless: :pending_or_academic?
-  validates :email, format: { with: Devise.email_regexp, unless: :pending? }
-  validates :provider_name, presence: true, unless: :pending?
-  validates :provider_email, presence: true, unless: :pending?
-  after_initialize do |recommender|
-    recommender.status = "done"
-  end
+  validates :title, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :job_title, presence: true
+  validates :department, presence: true, if: :academic?
+  validates_associated :institution
+  validates_associated :industry, if: :industry?
+  validates :email, format: { with: Devise.email_regexp }
+  validates :provider_name, presence: true
+  validates :provider_email, presence: true
+  after_validation :set_status
 
   def self.save_excel_data(excel)
     recommenders = []
     excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
       recommender = Recommender.new(academic_attrs(row))
       recommender.status = 'pending' if recommender.invalid?
+      recommender.save(false)
       recommenders << recommender
     end
 
     excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
       recommender = Recommender.new(industry_attrs(row))
       recommender.status = 'pending' if recommender.invalid?
+      recommender.save(false)
       recommenders << recommender
     end
     recommenders
-  end
-
-  def pending_or_academic?
-    pending? || academic?
-  end
-
-  def pending_or_industry?
-    pending? || !academic?
   end
 
   def pending?
@@ -57,7 +49,16 @@ class Recommender < ApplicationRecord
     category == '學術界'
   end
 
+  def industry?
+    category == '產業界'
+  end
+
   private
+
+  def set_status
+    return false if self.errors.any?
+    self.status = 'done'
+  end
   class << self
     def academic_attrs(row)
       institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"]).id
