@@ -1,4 +1,4 @@
-<p class="flex flex-col items-center justify-center text-lg h-1/2">
+<p class="flex flex-col items-center justify-center text-lg h-screen">
 分享此連結給推薦者：<br>
 <%= link_to nil, new_recommender_url(user_token: current_user.token), class: 'text-blue-600 hover:underline', target: "_blank", id: 'new_recommender_link' %>
 <button class='mt-2' onclick="copyShareLink()">
