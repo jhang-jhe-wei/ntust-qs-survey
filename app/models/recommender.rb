@@ -23,22 +23,25 @@ class Recommender < ApplicationRecord
   validates :provider_email, presence: true
   after_validation :set_status
 
-  def self.save_excel_data(excel)
-    recommenders = []
-    excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommender = Recommender.new(academic_attrs(row))
-      recommender.status = 'pending' if recommender.invalid?
-      recommender.save(validate: false)
-      recommenders << recommender
+  class << self
+    def save_excel_data(excel)
+      recommenders = []
+      excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
+        recommenders << create_or_set_pending_create(academic_attrs(row))
+      end
+
+      excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
+        recommenders << create_or_set_pending_create(industry_attrs(row))
+      end
+      recommenders
     end
 
-    excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommender = Recommender.new(industry_attrs(row))
+    def create_or_set_pending_create(attrs)
+      recommender = Recommender.new(attrs)
       recommender.status = 'pending' if recommender.invalid?
       recommender.save(validate: false)
-      recommenders << recommender
+      recommender
     end
-    recommenders
   end
 
   def pending?
