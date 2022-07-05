@@ -11,8 +11,11 @@
   <% end %>
 
   <div class="max-w-3xl mt-20 grid gap-9 grid-cols-min-contect-and-auto" data-controller="recommenders">
-    <span class="self-center text-right whitespace-nowrap">登入單位</span>
-    <span class=""><%= @department_name || recommender.users.first.department.name %></span>
+
+    <label class="self-center text-right" for="provider_department">登入單位</label>
+    <select name="provider_department" id="departments" class="recommender-form-select" disabled>
+      <%= all_departments_options(@department&.id) %>
+    </select>
 
     <%= form.label :provider_name, class: "recommender-form-label" %>
     <%= form.text_field :provider_name, class: "recommender-form-input", placeholder: "教師姓名", required: true %>
