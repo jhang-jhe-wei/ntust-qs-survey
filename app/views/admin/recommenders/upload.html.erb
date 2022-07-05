@@ -1,5 +1,5 @@
 <%= form_tag({:action => :upload}, :multipart => true, class: 'mt-4') do %>
-  <%= file_field_tag 'excel', class: "text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none" %>
+  <%= file_field_tag 'excel', class: "text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none", required: true %>
   <%= submit_tag '匯入 Excel', class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1 mb-2 focus:outline-none" %>
 <% end %>
 <%= link_to '填報表格檔案(Excel)', download_template_excel_admin_recommenders_path, class: "focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm py-1 block w-48 text-center mb-2" %>
