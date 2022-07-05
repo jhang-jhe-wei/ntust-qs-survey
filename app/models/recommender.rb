@@ -28,14 +28,14 @@ class Recommender < ApplicationRecord
     excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
       recommender = Recommender.new(academic_attrs(row))
       recommender.status = 'pending' if recommender.invalid?
-      recommender.save(false)
+      recommender.save(validate: false)
       recommenders << recommender
     end
 
     excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
       recommender = Recommender.new(industry_attrs(row))
       recommender.status = 'pending' if recommender.invalid?
-      recommender.save(false)
+      recommender.save(validate: false)
       recommenders << recommender
     end
     recommenders
