@@ -1,14 +1,24 @@
-<%= form_tag admin_recommenders_url, id: "switch_department_form", method: "get" do %>
-  <%= label_tag(:department_id, "切換部門") %>
-  <%= select_tag :department_id, all_departments_options(@department.id) %>
+<%= form_tag admin_recommenders_url, id: "switch_department_form", method: "get", class: 'mt-4' do %>
+  <%= label_tag(:department_id, "目前單位：") %>
+  <%= select_tag :department_id, all_departments_options(@department.id), class: 'form-select appearance-none
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding bg-no-repeat
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' %>
 <% end %>
-
-<p>單位：<%= @department.name %></p>
-<div class="container mx-auto">
-  <p>學術界名單，共計 <span style="color: red"><%= @recommenders.is_academic.count %></span> 筆</p>
+<div class="container mx-auto mt-4">
+  <p class="mb-2 text-lg">學術界名單，共計 <span style="color: red"><%= @recommenders.is_academic.count %></span> 筆</p>
   <%= render 'table', recommenders: @recommenders.is_academic, type: :academic %>
 
-  <p>產業界名單，共計 <span style="color: red"><%= @recommenders.is_industry.count %></span> 筆</p>
+  <p class="mt-4 mb-2 text-lg">產業界名單，共計 <span style="color: red"><%= @recommenders.is_industry.count %></span> 筆</p>
   <%= render 'table', recommenders: @recommenders.is_industry, type: :industry %>
 
 </div>

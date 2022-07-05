@@ -29,7 +29,7 @@
     <tbody>
       <% recommenders.each do |recommender| %>
         <tr class="border-b odd:bg-white even:bg-gray-50" >
-          <td class="px-4 py-4"><%= recommender.updated_at.to_s(:db)  %></td>
+          <td class="px-4 py-4"><%= recommender.updated_at.strftime('%Y-%m-%d %H:%M:%S')  %></td>
           <td class="px-4 py-4"><%= NtustDepartment.includes(users: :recommenders).where(recommenders: { id: recommender.id }).pluck(:name).join("\n") %></td>
           <td class="px-4 py-4"><%= recommender.provider_name %></td>
           <td class="px-4 py-4"><%= recommender.provider_email %></td>

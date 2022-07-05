@@ -6,3 +6,7 @@ Given('there are {int} {string} recommenders belong to {string} user') do |quant
     user.recommenders.create!(attributes_for(:recommender, category:))
   end
 end
+
+Then('I can see {string} select as {string}') do |selector_id, text|
+  expect(find("select##{selector_id}").find('option[selected]').text).to eq(text)
+end
