@@ -6,10 +6,10 @@
 <p>單位：<%= @department.name %></p>
 <div class="container mx-auto">
   <p>學術界名單，共計 <span style="color: red"><%= @recommenders.is_academic.count %></span> 筆</p>
-  <%= render 'table', recommenders: @recommenders.is_academic %>
+  <%= render 'table', recommenders: @recommenders.is_academic, type: :academic %>
 
   <p>產業界名單，共計 <span style="color: red"><%= @recommenders.is_industry.count %></span> 筆</p>
-  <%= render 'table', recommenders: @recommenders.is_industry %>
+  <%= render 'table', recommenders: @recommenders.is_industry, type: :industry %>
 
 </div>
 <script>
