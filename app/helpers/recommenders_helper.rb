@@ -20,9 +20,9 @@ module RecommendersHelper
                        ], default)
   end
 
-  def all_departments_options(default = 0)
-    options_for_select(current_user.department.self_or_departments.all.map do |department|
-                         [department.name, department.id]
+  def all_departments_options(department, default = 0)
+    options_for_select(department.self_or_departments.all.map do |department_|
+                         [department_.name, department_.id]
                        end, default)
   end
 end

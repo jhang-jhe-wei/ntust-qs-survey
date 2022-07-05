@@ -1,6 +1,6 @@
 <%= form_tag admin_recommenders_url, id: "switch_department_form", method: "get", class: 'mt-4' do %>
   <%= label_tag(:department_id, "目前單位：") %>
-  <%= select_tag :department_id, all_departments_options(@department.id), class: 'form-select appearance-none
+  <%= select_tag :department_id, all_departments_options(current_user.department, @department.id), class: 'form-select appearance-none
     px-3
     py-1.5
     text-base
