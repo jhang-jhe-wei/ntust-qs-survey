@@ -21,16 +21,22 @@ class Recommender < ApplicationRecord
   validates :email, format: { with: Devise.email_regexp, unless: :pending? }
   validates :provider_name, presence: true, unless: :pending?
   validates :provider_email, presence: true, unless: :pending?
-  before_save :set_status
+  after_initialize do |recommender|
+    recommender.status = "done"
+  end
 
   def self.save_excel_data(excel)
     recommenders = []
     excel.sheet('聲譽調查提名名冊-學界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommenders << Recommender.create(academic_attrs(row))
+      recommender = Recommender.new(academic_attrs(row))
+      recommender.status = 'pending' if recommender.invalid?
+      recommenders << recommender
     end
 
     excel.sheet('聲譽調查提名名冊-業界').parse(header_search: ['提供此名單之教師姓名']).each do |row|
-      recommenders << Recommender.create(industry_attrs(row))
+      recommender = Recommender.new(industry_attrs(row))
+      recommender.status = 'pending' if recommender.invalid?
+      recommenders << recommender
     end
     recommenders
   end
@@ -52,12 +58,6 @@ class Recommender < ApplicationRecord
   end
 
   private
-
-  def set_status
-    self.status = 'done'
-    self.status = 'pending' if invalid?
-  end
-
   class << self
     def academic_attrs(row)
       institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"]).id

@@ -1,1 +1,18 @@
-<p>分享此連結給推薦者：<%= link_to nil, new_recommender_url(user_token: current_user.token) %></p>
+<p class="flex flex-col items-center justify-center text-lg h-screen">
+分享此連結給推薦者：<br>
+<%= link_to nil, new_recommender_url(user_token: current_user.token), class: 'text-blue-600 hover:underline', target: "_blank", id: 'new_recommender_link' %>
+<button class='mt-2' onclick="copyShareLink()">
+  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+</button>
+</p>
+
+<script>
+function copyShareLink(){
+  let text = document.querySelector('#new_recommender_link').href
+  navigator.clipboard.writeText(text).then(function() {
+    console.log('Async: Copying to clipboard was successful!');
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+</script>

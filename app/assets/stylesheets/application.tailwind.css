@@ -8,10 +8,10 @@
   }
 
   .recommender-form-input {
-    @apply bg-gray-100 py-2 pl-2 rounded-md
+    @apply bg-gray-100 py-2 pl-2 rounded-md w-full
   }
 
   .recommender-form-select {
-    @apply bg-gray-100 py-2 pl-1 rounded-md
+    @apply bg-gray-100 py-2 pl-1 rounded-md w-full
   }
 }

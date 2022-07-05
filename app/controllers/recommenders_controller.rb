@@ -4,7 +4,7 @@ class RecommendersController < ApplicationController
   def new
     @recommender = Recommender.new
     @user_token = params[:user_token]
-    @department_name = User.find_by(token: params[:user_token]).department.name
+    @department = User.find_by(token: params[:user_token]).department
   end
 
   def create
