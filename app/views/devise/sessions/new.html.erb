@@ -1,33 +1,18 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg">
-    <h2 class="text-2xl font-bold text-center">登入</h2>
+<div class="flex items-center justify-center min-h-screen bg-blue-700">
+  <div class="px-32 pt-24 pb-10 bg-white shadow-lg rounded-2xl">
+    <h2 class="text-2xl font-bold text-center text-gray-600">QS SURVEY 推薦名單問卷<br>登入頁面</h2>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="mt-4">
-        <div class="mt-2">
-          <%= f.label :email %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" %>
-        </div>
+      <div class="mt-20 grid gap-x-8 gap-y-9 grid-cols-min-contect-and-auto">
+        <%= f.label :email, '帳號', class: "devise-form-label" %>
+        <%= f.email_field :email, class: "devise-form-input" %>
 
-        <div class="mt-2">
-          <%= f.label :password %>
-          <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
-          <%= f.password_field :password, autocomplete: "new-password", class: "w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" %>
-        </div>
-
-        <% if devise_mapping.rememberable? %>
-          <div class="mt-2">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-          </div>
-        <% end %>
-
-
-        <div class="flex items-baseline justify-between">
-          <%= f.submit "Log in", class: "px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900" %>
-        </div>
+        <%= f.label :password, class: "devise-form-label" %>
+        <%= f.password_field :password, autocomplete: "off", class: "devise-form-input" %>
       </div>
+      <%= f.submit "登入", class: "px-10 py-2 mt-16 text-white bg-blue-700 rounded-3xl hover:bg-white mx-auto block hover:text-blue-700 border border-blue-700" %>
+      <p class="mt-16 text-gray-500">
+        國立臺灣科技大學 研發處校務研究與發展中心
+      </p>
     <% end %>
   </div>
 </div>

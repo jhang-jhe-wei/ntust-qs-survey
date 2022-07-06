@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* disable chrome default input style */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
 @layer components {
   .recommender-form-label {
     @apply text-right self-center
@@ -13,5 +19,13 @@
 
   .recommender-form-select {
     @apply bg-gray-100 py-2 pl-1 rounded-md w-full
+  }
+
+  .devise-form-label {
+    @apply text-right text-gray-600 self-center
+  }
+
+  .devise-form-input {
+    @apply bg-white py-2 pl-2 rounded w-full border border-gray-300
   }
 }
