@@ -11,5 +11,5 @@ Feature: Login
       | field    | value                    |
       | email    | tu6685@mail.ntust.edu.tw |
       | password | 12345678                 |
-    And I click "Log in"
+    And I click "commit"
     Then I can see "成功登入了。"
