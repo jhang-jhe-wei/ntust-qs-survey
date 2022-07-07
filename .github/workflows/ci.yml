@@ -1,0 +1,66 @@
+name: CI
+
+on: [push]
+
+jobs:
+  rspec:
+   runs-on: ubuntu-latest
+    container:
+      image: ruby:3.1.2
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: "qs_survey_test"
+        ports:
+          - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Gem cache
+      id: cache-bundle
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+
+    - name: Bundle install
+      env:
+        RAILS_ENV: test
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3 --path vendor/bundle
+    - name: Install yarn
+      run: npm install -g yarn
+
+    # NOTE: Yarn cache doesn't seem to be working quite yet
+    - name: Get yarn cache dir
+      id: yarn-cache-dir
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Yarn cache
+      id: cache-yarn
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache-dir.outputs.dir }}
+        key: yarn-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Yarn install
+      run: yarn install
+
+    - name: Setup DB, Run tests
+      env:
+        DATABASE_URL: "mysql2://root:password@127.0.0.1/qs_survey_test"
+        RAILS_ENV: test
+      run: |
+        bin/rails db:create db:schema:load
+        bundle exec rspec
