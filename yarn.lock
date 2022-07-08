@@ -299,11 +299,6 @@ esbuild-openbsd-64@0.14.38:
   resolved "https://registry.yarnpkg.com/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.38.tgz#1ca29bb7a2bf09592dcc26afdb45108f08a2cdbd"
   integrity sha512-CDswYr2PWPGEPpLDUO50mL3WO/07EMjnZDNKpmaxUPsrW+kVM3LoAqr/CE8UbzugpEiflYqJsGPLirThRB18IQ==
 
-esbuild-plugin-stimulus@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/esbuild-plugin-stimulus/-/esbuild-plugin-stimulus-0.1.5.tgz#6e4ba834ed8fcf9d662f1df8f709e05328b6b92c"
-  integrity sha512-ANav+mJxDJCIMuKfj4h7F2BemA1BcIaE5VmmGd6qDVQEaFEH3YeVRAHOWjgiUhGJBFi6wI8Q7RtZIZkNvbckZg==
-
 esbuild-sunos-64@0.14.38:
   version "0.14.38"
   resolved "https://registry.yarnpkg.com/esbuild-sunos-64/-/esbuild-sunos-64-0.14.38.tgz#c9446f7d8ebf45093e7bb0e7045506a88540019b"
