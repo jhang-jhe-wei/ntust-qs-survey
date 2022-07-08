@@ -55,6 +55,8 @@ jobs:
         bundle install
         yarn install
 
+    - uses: nanasess/setup-chromedriver@v1
+
     - name: Prepare
       run: |
         bundle exec rake test:prepare

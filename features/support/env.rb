@@ -52,3 +52,9 @@ ActionController::Base.allow_rescue = false
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 World(FactoryBot::Syntax::Methods)
+# Capybara.register_driver :selenium_chrome do |app|
+#   Capybara::Selenium::Driver.new(app, browser: :chrome)
+# end
+Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.default_max_wait_time = 1
+Capybara.default_driver = :selenium_chrome

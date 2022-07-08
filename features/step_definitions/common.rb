@@ -13,6 +13,7 @@ Given('there is a user belongs to {string} logged in') do |department_name|
   fill_in 'user_email', with: email
   fill_in 'user_password', with: password
   click_on 'commit'
+  expect(page).to have_text('成功登入了。')
 end
 
 Given('there are some users belong to {string}') do |department_name, table|
