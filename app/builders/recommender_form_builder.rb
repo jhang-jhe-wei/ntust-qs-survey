@@ -4,7 +4,7 @@ class RecommenderFormBuilder < ActionView::Helpers::FormBuilder
     text_field(attribute, {
       required: true,
       class: "recommender-form-input",
-      pattern: "[A-Za-z0-9.-]*",
+      pattern: "[A-Za-z0-9. ,_-]*",
       title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"
     }.merge(options))
   end
