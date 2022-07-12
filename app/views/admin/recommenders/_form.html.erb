@@ -13,7 +13,7 @@
   <div class="max-w-3xl mt-20 grid gap-9 grid-cols-min-contect-and-auto" data-controller="recommenders">
 
     <label class="self-center text-right" for="provider_department">登入單位</label>
-    <select name="provider_department" id="departments" class="recommender-form-select" disabled>
+    <select name="provider_department" id="departments" class="appearance-none recommender-form-select" disabled>
       <%= all_departments_options(current_user.department, @department&.id) %>
     </select>
 
