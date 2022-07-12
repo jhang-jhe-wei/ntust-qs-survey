@@ -1,40 +1,47 @@
 import { Controller } from "stimulus";
+import axios from "axios";
 
 export default class extends Controller {
-  static targets = ["industry", "institution", "department", "company", "country", "category"];
-  industryTarget: HTMLInputElement;
-  institutionTarget: HTMLInputElement;
-  departmentTarget: HTMLInputElement;
-  companyTarget: HTMLInputElement;
-  countryTarget: HTMLInputElement;
+  static targets = ["industry", "academic", "category", "company"];
+  industryTargets: HTMLInputElement[];
+  academicTargets: HTMLInputElement[];
   categoryTarget: HTMLInputElement;
+  companyTarget: HTMLInputElement;
 
   connect() {
+    this.changeVisible();
+    this.setupAutocomplete();
+    this.setupInvalidScroller();
+  }
+
+  setupAutocomplete(){
+    $(this.companyTarget).autocomplete({
+      source: function(request, callback){
+        axios.get("/autocompletes/company_name", {
+          params: {
+            q: request.term
+          }
+        }).then((response) => {
+          callback(response.data);
+        });
+      }
+    });
+  }
+
+  setupInvalidScroller(){
     let elements = document.querySelectorAll('input,select,textarea');
     let invalidListener = function(){ this.scrollIntoView(false); };
     for(let i = elements.length; i--;)
       elements[i].addEventListener('invalid', invalidListener);
+  }
 
-    const changeDisplay = (category:string) => {
-      this.industryTarget.style.display = 'none'
-      this.departmentTarget.style.display = 'none'
-      this.countryTarget.style.display = 'none'
-      this.companyTarget.style.display = 'none'
-      this.institutionTarget.style.display = 'none'
-      if(category === '學術界') {
-        this.departmentTarget.style.display = 'contents'
-        this.institutionTarget.style.display = 'contents'
-      }else {
-        this.industryTarget.style.display = 'contents'
-        this.countryTarget.style.display = 'contents'
-        this.companyTarget.style.display = 'contents'
-      }
+  changeVisible() {
+    this.industryTargets.forEach(target => target.style.display = 'none')
+    this.academicTargets.forEach(target => target.style.display = 'none')
+    if(this.categoryTarget.value === '學術界') {
+      this.academicTargets.forEach(target => target.style.display = 'contents')
+    }else {
+      this.industryTargets.forEach(target => target.style.display = 'contents')
     }
-
-    changeDisplay(this.categoryTarget.value);
-    $(this.categoryTarget).on("change", function(e){
-      changeDisplay(e.target.value);
-    })
-
   }
 }

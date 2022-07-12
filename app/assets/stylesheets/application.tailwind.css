@@ -28,4 +28,12 @@ input:-webkit-autofill:focus {
   .devise-form-input {
     @apply bg-white py-2 pl-2 rounded w-full border border-gray-300
   }
+
+  .recommender-table-th {
+    @apply px-4 py-3 whitespace-nowrap text-center
+  }
+
+  .recommender-table-td {
+    @apply px-4 py-4 text-center
+  }
 }

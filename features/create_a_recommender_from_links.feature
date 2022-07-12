@@ -20,7 +20,7 @@ Feature: Create a recommender from the link
       | email          | ymhsieh@mail.ntust.edu.tw                        |
       | job_title       | Professor                                        |
       | department     | Department of Civil and Construction Engineering |
-    And I select "recommender_institution_id" as "臺灣科技大學"
+    And I select "recommender_institution_id" as "National Taiwan University of Science and Technology"
     And I click "名單提交"
     Then I can see "推薦者已建立"
     And I can ensure "營建工程系" user has these attributes recommender
@@ -34,7 +34,7 @@ Feature: Create a recommender from the link
       | job_title      | Professor                                        |
       | department     | Department of Civil and Construction Engineering |
       | category       | 學術界                                           |
-    And I can ensure "營建工程系" user has the recommender whose "institution" is "臺灣科技大學"
+    And I can ensure "營建工程系" user has the recommender whose "institution" is "National Taiwan University of Science and Technology"
 
   Scenario: The user create a Industry recommender from the link
     Given there are 1 users belong to "機械工程系"

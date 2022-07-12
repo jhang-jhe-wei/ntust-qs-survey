@@ -7,7 +7,7 @@ module Admin
     def index
       @department = NtustDepartment.find_by(id: params[:department_id]) || current_user.department
       authorize @department
-      @recommenders = @department.visible_recommenders.is_done
+      @recommenders = @department.visible_recommenders.is_done.order_by_update_at
     end
 
     def new

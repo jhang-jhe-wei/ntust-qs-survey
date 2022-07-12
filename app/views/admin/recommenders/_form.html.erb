@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, recommender]) do |form| %>
+<%= form_with(model: [:admin, recommender], builder: RecommenderFormBuilder) do |form| %>
   <% if recommender.errors.any? %>
     <div class="p-4 mt-4 text-orange-700 bg-orange-100 border-l-4 border-orange-500" id="error_explanation">
       <h2><%= pluralize(recommender.errors.count, "個錯誤") %> 該推薦人因以下原因無法儲存:</h2>
@@ -13,7 +13,7 @@
   <div class="max-w-3xl mt-20 grid gap-9 grid-cols-min-contect-and-auto" data-controller="recommenders">
 
     <label class="self-center text-right" for="provider_department">登入單位</label>
-    <select name="provider_department" id="departments" class="recommender-form-select" disabled>
+    <select name="provider_department" id="departments" class="appearance-none recommender-form-select" disabled>
       <%= all_departments_options(current_user.department, @department&.id) %>
     </select>
 
@@ -24,29 +24,24 @@
     <%= form.email_field :provider_email, class: "recommender-form-input", placeholder: "教師通訊電郵", required: true %>
 
     <%= form.label :category, class: "recommender-form-label" %>
-    <%= form.select :category, all_categories_options(recommender.category), {}, class: "recommender-form-select", 'data-recommenders-target': 'category' %>
+    <%= form.select :category, all_categories_options(recommender.category), {}, class: "recommender-form-select", 'data-recommenders-target': 'category', 'data-action': 'recommenders#changeVisible' %>
 
-    <%= form.label :title, class: "recommender-form-label"%>
-    <%= form.text_field :title, class: "recommender-form-input", placeholder: "Title", pattern: "[A-Za-z0-9.]*", required: true, title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" %>
+    <%= form.text_with_label_field :title, placeholder: "Title" %>
 
-    <%= form.label :first_name, class: "recommender-form-label"%>
-    <%= form.text_field :first_name, class: "recommender-form-input", placeholder: "First Name", pattern: "[A-Za-z0-9-]*", required: true, title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"%>
+    <%= form.text_with_label_field :first_name, placeholder: "First Name" %>
 
-    <%= form.label :last_name, class: "recommender-form-label"%>
-    <%= form.text_field :last_name, class: "recommender-form-input", placeholder: "Last Name", pattern: "[A-Za-z0-9]*", required: true , title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"%>
+    <%= form.text_with_label_field :last_name, placeholder: "Last Name" %>
 
     <%= form.label :email, class: "recommender-form-label"%>
     <%= form.email_field :email, class: "recommender-form-input", placeholder: "Email", required: true , title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"%>
 
-    <%= form.label :job_title, class:"recommender-form-label"%>
-    <%= form.text_field :job_title, class: "recommender-form-input", placeholder: "Position", pattern: "[A-Za-z0-9]*", required: true , title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"%>
+    <%= form.text_with_label_field :job_title, placeholder: "Position" %>
 
-    <div class="contents" data-recommenders-target="department">
-      <%= form.label :department, class:"recommender-form-label"%>
-      <%= form.text_field :department, class: "recommender-form-input", placeholder: "Department", pattern: "[A-Za-z0-9 ]*", title: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"%>
+    <div class="contents" data-recommenders-target="academic">
+      <%= form.text_with_label_field :department, placeholder: "Department", required: false %>
     </div>
 
-    <div class="contents" data-recommenders-target="institution">
+    <div class="contents" data-recommenders-target="academic">
       <%= form.label :institution_id, class: "recommender-form-label"%>
       <%= form.select :institution_id, all_institutions_options(recommender.institution_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
@@ -56,13 +51,13 @@
       <%= form.select :industry_id, all_industries_options(recommender.industry_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
-    <div class="contents" data-controller="autocomplete" data-recommenders-target="company">
-      <label class="self-center text-right" for="company"> Company Name(公司名稱) </label>
-      <input type="text" name="company" id="company" class="recommender-form-input", pattern="[A-Za-z0-9]*" data-autocomplete-target="company" title="限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。"/>
+    <div class="contents" data-recommenders-target="industry">
+      <%= label_tag 'company', 'Company Name(公司名稱)', class: 'recommender-form-label' %>
+      <%= recommender_text_field_tag('company', 'data-recommenders-target': "company") %>
     </div>
 
-    <div class="contents" data-recommenders-target="country">
-      <label class="self-center text-right" for="country"> Country(所屬國家) </label>
+    <div class="contents" data-recommenders-target="industry">
+      <%= label_tag 'country', 'Country(所屬國家)', class: 'recommender-form-label' %>
       <select name="country" id="country" class="recommender-form-input">
         <%= all_countries_options(recommender.institution&.country&.id) %>
       </select>

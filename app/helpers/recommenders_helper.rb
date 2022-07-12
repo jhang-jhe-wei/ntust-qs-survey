@@ -25,4 +25,14 @@ module RecommendersHelper
                          [department_.name, department_.id]
                        end, default)
   end
+
+  def recommender_text_field_tag(attribute, options = {})
+    text_field(attribute, nil, {
+      id: attribute,
+      name: attribute,
+      class: 'recommender-form-input',
+      pattern: '[A-Za-z0-9. ,_-]*',
+      title: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。'
+    }.merge(options))
+  end
 end
