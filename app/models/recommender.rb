@@ -9,6 +9,7 @@ class Recommender < ApplicationRecord
   scope :is_industry, -> { where(category: '產業界') }
   scope :is_pending, -> { where(status: 'pending') }
   scope :is_done, -> { where(status: 'done') }
+  scope :order_by_update_at, -> { order(updated_at: :desc) }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
   validates :title, presence: true
