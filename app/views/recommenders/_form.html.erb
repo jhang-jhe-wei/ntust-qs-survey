@@ -23,7 +23,7 @@
     <%= form.email_field :provider_email, class: "recommender-form-input", placeholder: "教師通訊電郵", required: true %>
 
     <%= form.label :category, class: "recommender-form-label" %>
-    <%= form.select :category, all_categories_options(recommender.category), {}, class: "recommender-form-select", 'data-recommenders-target': 'category' %>
+    <%= form.select :category, all_categories_options(recommender.category), {}, class: "recommender-form-select", 'data-recommenders-target': 'category', 'data-action': 'recommenders#changeVisible' %>
 
     <%= form.text_with_label_field :title, placeholder: "Title" %>
 
@@ -36,11 +36,11 @@
 
     <%= form.text_with_label_field :job_title, placeholder: "Position" %>
 
-    <div class="contents" data-recommenders-target="department">
+    <div class="contents" data-recommenders-target="academic">
       <%= form.text_with_label_field :department, placeholder: "Department", required: false %>
     </div>
 
-    <div class="contents" data-recommenders-target="institution">
+    <div class="contents" data-recommenders-target="academic">
       <%= form.label :institution_id, class: "recommender-form-label"%>
       <%= form.select :institution_id, all_institutions_options(recommender.institution_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
@@ -50,18 +50,17 @@
       <%= form.select :industry_id, all_industries_options(recommender.industry_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
-    <div class="contents" data-controller="autocomplete" data-recommenders-target="company">
+    <div class="contents" data-recommenders-target="industry">
       <%= label_tag 'company', 'Company Name(公司名稱)', class: 'recommender-form-label' %>
-      <%= recommender_text_field_tag('company', 'data-autocomplete-target': "company") %>
+      <%= recommender_text_field_tag('company', 'data-recommenders-target': "company") %>
     </div>
 
-    <div class="contents" data-recommenders-target="country">
+    <div class="contents" data-recommenders-target="industry">
       <%= label_tag 'country', 'Country(所屬國家)', class: 'recommender-form-label' %>
       <select name="country" id="country" class="recommender-form-input">
         <%= all_countries_options(recommender.institution&.country&.id) %>
       </select>
     </div>
-
   </div>
   <input name="user_token" type="hidden" value="<%= @user_token %>">
 

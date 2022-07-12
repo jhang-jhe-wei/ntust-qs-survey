@@ -4,8 +4,5 @@
 
 import { application } from "./application"
 
-import AutocompleteController from "./autocomplete_controller.ts"
-application.register("autocomplete", AutocompleteController)
-
 import RecommendersController from "./recommenders_controller.ts"
 application.register("recommenders", RecommendersController)
