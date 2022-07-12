@@ -12,13 +12,15 @@ class Recommender < ApplicationRecord
   scope :order_by_update_at, -> { order(updated_at: :desc) }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
-  validates :title, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :job_title, presence: true
-  validates :department, presence: true, if: :academic?
+  validates :title, presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" }
+  validates :first_name, presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" }
+  validates :last_name, presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" }
+  validates :job_title, presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" }
+  validates :department, presence: true, if: :academic?, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: "限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。" }
   validates_associated :institution
   validates_associated :industry, if: :industry?
+  validates :institution_id, presence: true
+  validates :industry_id, presence: true, if: :industry?
   validates :email, format: { with: Devise.email_regexp }
   validates :provider_name, presence: true
   validates :provider_email, presence: true
@@ -78,9 +80,7 @@ class Recommender < ApplicationRecord
       country_id = Country.find_by(name: row["Location\n所處國別"])&.id
       institution_id = Institution.find_or_create_by(name: row["Company Name\n所屬公司/機構名"],
                                                      country_id: country_id)&.id
-      industry_id = Industry.find_by(name: row["Industry\n產業別(下拉式選單)"].strip)&.id
-      puts row["Industry\n產業別(下拉式選單)"]
-      puts industry_id
+      industry_id = Industry.find_by(name: row["Industry\n產業別(下拉式選單)"]&.strip)&.id
       common_attrs(row).merge(
         institution_id: institution_id,
         industry_id: industry_id,
