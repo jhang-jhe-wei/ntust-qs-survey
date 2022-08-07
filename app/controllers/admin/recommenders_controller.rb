@@ -25,7 +25,9 @@ module Admin
       end
     end
 
-    def edit; end
+    def edit
+      @department = current_user.department
+    end
 
     def update
       @recommender.update(recommender_params)
