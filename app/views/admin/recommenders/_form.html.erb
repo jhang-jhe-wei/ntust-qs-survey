@@ -14,7 +14,7 @@
 
     <label class="self-center text-right" for="provider_department">登入單位</label>
     <select name="provider_department" id="departments" class="appearance-none recommender-form-select" disabled>
-      <%= all_departments_options(current_user.department, @department&.id) %>
+      <%= all_departments_options(department, department&.id) %>
     </select>
 
     <%= form.label :provider_name, class: "recommender-form-label" %>
