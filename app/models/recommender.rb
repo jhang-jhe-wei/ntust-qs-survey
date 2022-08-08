@@ -12,22 +12,17 @@ class Recommender < ApplicationRecord
   scope :order_by_update_at, -> { order(updated_at: :desc) }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
-  validates :title, presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' }
-  validates :first_name, presence: true,
-                         format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' }
-  validates :last_name, presence: true,
-                        format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' }
-  validates :job_title, presence: true,
-                        format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' }
-  validates :department, presence: true, if: :academic?,
-                         format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' }
   validates_associated :institution
-  validates_associated :industry, if: :industry?
-  validates :institution_id, presence: true
-  validates :industry_id, presence: true, if: :industry?
   validates :email, format: { with: Devise.email_regexp }
-  validates :provider_name, presence: true
-  validates :provider_email, presence: true
+  validates :provider_name, :provider_email, presence: true
+  with_options presence: true, format: { with: /\A[A-Za-z0-9. ,_-]*\z/, message: '限以英文 (半形) 填入，並勿填寫如É、Ÿ等特殊字元。' } do
+    validates :title, :first_name, :last_name, :job_title, :institution_id
+    validates :department, if: :academic?
+  end
+  with_options if: :industry? do
+    validates_associated :industry
+    validates :industry_id, presence: true
+  end
   after_validation :set_status
 
   class << self
