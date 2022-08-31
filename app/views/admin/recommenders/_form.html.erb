@@ -52,7 +52,7 @@
 
     <div class="contents industry">
       <%= label_tag 'company', 'Company Name(公司名稱)', class: 'recommender-form-label' %>
-      <%= recommender_text_field_tag('company') %>
+      <%= react_component("CompanyAutocomplete") %>
     </div>
 
     <div class="contents industry">

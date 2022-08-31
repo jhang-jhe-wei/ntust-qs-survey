@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :institutions, only: %i[index]
   get 'autocompletes/company_name', to: 'autocompletes#company_name'
   devise_for :users
 end
