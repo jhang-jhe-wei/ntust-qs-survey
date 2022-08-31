@@ -23,9 +23,6 @@ gem 'jsbundling-rails'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'turbo-rails'
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem 'stimulus-rails'
-
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem 'cssbundling-rails'
 
@@ -91,4 +88,5 @@ gem 'openbox', git: 'https://github.com/jhang-jhe-wei/openbox.git'
 gem 'rails-i18n', '~> 7.0.0' # For 7.0.0
 
 gem 'pundit', '~> 2.2'
+gem 'react-rails'
 gem 'roo', '~> 2.9.0'
