@@ -25,6 +25,12 @@ class Recommender < ApplicationRecord
   end
   after_validation :set_status
 
+  delegate :name, to: :institution, prefix: true, allow_nil: true
+
+  def country_name
+    institution.country.name
+  end
+
   class << self
     def save_excel_data(excel)
       recommenders = []

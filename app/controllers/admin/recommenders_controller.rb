@@ -62,6 +62,14 @@ module Admin
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
+    def export
+      @recommenders = current_user.department.visible_recommenders.is_done.order_by_update_at.as_json(
+        root: false,
+        only: %i[id title first_name last_name job_title department email],
+        methods: %i[institution_name country_name]
+      )
+    end
+
     private
 
     def recommender_params
