@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { mountToWindow } from '../helpers/helper';
 
 const CategorySelector = ({ value }) => {
-  const [state, setState] = useState(value);
+  const [state, setState] = useState(value || '學術界');
 
   useEffect(()=>{
     const academicTargets = document.querySelectorAll('.academic')
