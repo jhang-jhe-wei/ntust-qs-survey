@@ -63,60 +63,18 @@ module Admin
     end
 
     def export
-      @academic_recommenders = current_user.department.visible_recommenders.is_not_committed.is_done.is_academic.order_by_update_at.as_json(
-        root: false,
-        only: %i[id title first_name last_name job_title department email],
-        methods: %i[institution_name location]
-      )
-
-      @industry_recommenders = current_user.department.visible_recommenders.is_not_committed.is_done.is_industry.order_by_update_at.as_json(
-        root: false,
-        only: %i[id title first_name last_name position email],
-        methods: %i[industry_name company_name location]
-      )
-
+      recommender = current_user.department.visible_recommenders.is_not_committed.is_done.order_by_update_at
+      @academic_recommenders = export_json(recommender.is_academic)
+      @industry_recommenders = export_json(recommender.is_industry)
     end
 
     def export_csv
-      @recommenders = current_user.department.visible_recommenders.where(id: params[:ids])
-      csv_string = CSV.generate do |csv|
-        if params[:category] == "academic"
-          csv << ['Source', 'Title', 'First Name', 'Last Name',
-                  'Job Title', 'Department', 'Institution', 'Location', 'Email', 'Phone (Optional)']
-          @recommenders.each do |recommender|
-            csv << [
-              'National Taiwan University of Science and Technology',
-              recommender.title,
-              recommender.first_name,
-              recommender.last_name,
-              recommender.job_title,
-              recommender.department,
-              recommender.institution_name,
-              recommender.location,
-              recommender.email
-            ]
-          end
-        else
-
-          csv << ['Source', 'Title', 'First Name', 'Last Name',
-                  'Position', 'Industry', 'Company Name', 'Location', 'Email', 'Phone (Optional)']
-          @recommenders.each do |recommender|
-            csv << [
-              'National Taiwan University of Science and Technology',
-              recommender.title,
-              recommender.first_name,
-              recommender.last_name,
-              recommender.job_title,
-              recommender.industry_name,
-              recommender.institution_name,
-              recommender.location,
-              recommender.email
-            ]
-          end
-        end
-      end
-      @recommenders.update_all(is_committed: true)
-      send_data csv_string, filename: "#{Time.zone.today}-export.csv"
+      recommenders = current_user.department.visible_recommenders.where(id: params[:ids])
+      recommenders.update_all(is_committed: true) # rubocop:disable Rails/SkipsModelValidations
+      send_data(
+        RecommenderExport.new(recommenders, params[:category]).export!,
+        filename: "#{Time.zone.today}-export.csv"
+      )
     end
 
     private
@@ -140,6 +98,14 @@ module Admin
 
     def set_recommender
       @recommender = current_user.department.visible_recommenders.find(params[:id])
+    end
+
+    def export_json(recommenders)
+      recommenders.as_json(
+        root: false,
+        only: %i[id title first_name last_name job_title department position email],
+        methods: %i[institution_name industry_name company_name location]
+      )
     end
   end
 end
