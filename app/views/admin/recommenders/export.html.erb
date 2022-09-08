@@ -1,0 +1,5 @@
+<div class="container mx-auto mt-4">
+  <%= react_component("TableExporter", {columns: %i[title first_name last_name job_title department institution_name location email], data: @academic_recommenders, category: "academic"}) %>
+
+  <%= react_component("TableExporter", {columns: %i[title first_name last_name position industry_name company_name location email], data: @industry_recommenders, category: "industry"}) %>
+</div>

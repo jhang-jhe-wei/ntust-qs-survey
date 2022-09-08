@@ -62,6 +62,21 @@ module Admin
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
+    def export
+      recommender = current_user.department.visible_recommenders.is_not_committed.is_done.order_by_update_at
+      @academic_recommenders = export_json(recommender.is_academic)
+      @industry_recommenders = export_json(recommender.is_industry)
+    end
+
+    def export_csv
+      recommenders = current_user.department.visible_recommenders.where(id: params[:ids])
+      recommenders.update_all(is_committed: true) # rubocop:disable Rails/SkipsModelValidations
+      send_data(
+        RecommenderExport.new(recommenders, params[:category]).export!,
+        filename: "#{Time.zone.today}-export.csv"
+      )
+    end
+
     private
 
     def recommender_params
@@ -83,6 +98,14 @@ module Admin
 
     def set_recommender
       @recommender = current_user.department.visible_recommenders.find(params[:id])
+    end
+
+    def export_json(recommenders)
+      recommenders.as_json(
+        root: false,
+        only: %i[id title first_name last_name job_title department position email],
+        methods: %i[institution_name industry_name company_name location]
+      )
     end
   end
 end

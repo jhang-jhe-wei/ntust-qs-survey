@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { mountToWindow } from '../helpers/helper';
 
-const CategorySelector = () => {
-  const [state, setState] = useState('學術界');
+const CategorySelector = ({ value }) => {
+  const [state, setState] = useState(value || '學術界');
 
   useEffect(()=>{
     const academicTargets = document.querySelectorAll('.academic')
@@ -30,6 +30,7 @@ const CategorySelector = () => {
         name="recommender[category]"
         id="recommender_category"
         onChange={(e)=>{setState(e.target.value)}}
+        value={state}
       >
         <option value="學術界">學術界</option>
         <option value="產業界">產業界</option>

@@ -10,8 +10,8 @@ Rails.application.routes.draw do
         get 'share'
         get 'upload', to: 'recommenders#upload'
         post 'upload', to: 'recommenders#upload_excel'
-        get 'download', to: 'recommenders#download_page'
-        post 'download_excel', to: 'recommenders#download_excel'
+        get 'export', to: 'recommenders#export'
+        post 'export', to: 'recommenders#export_csv'
         get 'download_template_excel', to: 'recommenders#download_template_excel'
       end
     end

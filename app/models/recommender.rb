@@ -9,6 +9,8 @@ class Recommender < ApplicationRecord
   scope :is_industry, -> { where(category: '產業界') }
   scope :is_pending, -> { where(status: 'pending') }
   scope :is_done, -> { where(status: 'done') }
+  scope :is_committed, -> { where(is_committed: true) }
+  scope :is_not_committed, -> { where(is_committed: false) }
   scope :order_by_update_at, -> { order(updated_at: :desc) }
   validates :category, inclusion: { in: %w[學術界 產業界] }
   validates :status, inclusion: { in: %w[pending done] }
@@ -24,6 +26,21 @@ class Recommender < ApplicationRecord
     validates :industry_id, presence: true
   end
   after_validation :set_status
+
+  delegate :name, to: :institution, prefix: true, allow_nil: true
+  delegate :name, to: :industry, prefix: true, allow_nil: true
+
+  def position
+    job_title
+  end
+
+  def location
+    institution.country.name
+  end
+
+  def company_name
+    institution.name
+  end
 
   class << self
     def save_excel_data(excel)

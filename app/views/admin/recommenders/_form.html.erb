@@ -23,7 +23,7 @@
     <%= form.label :provider_email, class: "recommender-form-label"%>
     <%= form.email_field :provider_email, class: "recommender-form-input", placeholder: "教師通訊電郵", required: true %>
 
-    <%= react_component("CategorySelector", {}, class: "contents") %>
+    <%= react_component("CategorySelector", { value: recommender.category }, class: "contents") %>
 
     <%= form.text_with_label_field :title, placeholder: "Title" %>
 
