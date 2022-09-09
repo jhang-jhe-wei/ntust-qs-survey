@@ -61,6 +61,7 @@ ENV APP_ROOT=$APP_ROOT
 
 COPY . ${APP_ROOT}
 COPY --from=assets /${APP_ROOT}/public /${APP_ROOT}/public
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
 
 ARG REVISION
 ENV REVISION $REVISION
