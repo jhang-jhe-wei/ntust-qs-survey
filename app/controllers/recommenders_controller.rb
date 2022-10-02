@@ -19,19 +19,20 @@ class RecommendersController < ApplicationController
   private
 
   def recommender_params
+    institution = Institution.find_or_create_by(name: params[:institution], country_id: params[:country])
+    attrs = base_params.merge(institution_id: institution.id)
     if base_params[:category] == '產業界'
-      institution = Institution.find_or_create_by(name: params[:company], country_id: params[:country])
-      return base_params.merge!(
+      attrs.merge!(
         department: nil,
-        institution_id: institution.id,
         industry_id: params[:recommender][:industry_id]
       )
     end
-    base_params
+    attrs
   end
 
   def base_params
-    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department, :institution_id,
+    params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department,
                                         :provider_email, :provider_name, :email, :category)
   end
+
 end
