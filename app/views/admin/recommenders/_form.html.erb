@@ -40,28 +40,21 @@
       <%= form.text_with_label_field :department, placeholder: "Department", required: false %>
     </div>
 
-    <div class="contents academic">
-      <%= form.label :institution_id, class: "recommender-form-label"%>
-      <%= form.select :institution_id, all_institutions_options(recommender.institution_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
-    </div>
-
     <div class="contents industry">
       <%= form.label :industry_id, class: "recommender-form-label" %>
       <%= form.select :industry_id, all_industries_options(recommender.industry_id), {}, class: "recommender-form-select", placeholder: "請選擇"%>
     </div>
 
-    <div class="contents industry">
-      <%= label_tag 'company', 'Company Name(公司名稱)', class: 'recommender-form-label' %>
-      <%= react_component("CompanyAutocomplete") %>
-    </div>
-
-    <div class="contents industry">
-      <%= label_tag 'country', 'Country(所屬國家)', class: 'recommender-form-label' %>
-      <select name="country" id="country" class="recommender-form-input">
-        <%= all_countries_options(recommender.institution&.country&.id) %>
-      </select>
-    </div>
-
+    <%= react_component("InstitutionInput",
+                        {
+                          value: recommender.institution&.slice(:name, :country_id),
+                          institutions: Institution.all.select(:name, :country_id),
+                          countries: Country.all.select(:id, :name)
+                        },
+                        {
+                          class: 'contents'
+                        }
+                       ) %>
   </div>
 
   <%= form.submit '名單提交', class: "py-1 px-5 text-white bg-blue-700 border-2 border-blue-700 rounded-3xl hover:text-blue-700 hover:bg-white mt-20 ml-64 mb-60" %>
