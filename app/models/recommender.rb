@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Recommender < ApplicationRecord
+class Recommender < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :institution, optional: true
   belongs_to :industry, optional: true
   has_many :user_and_recommender_records, dependent: :destroy

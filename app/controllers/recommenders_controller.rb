@@ -34,5 +34,4 @@ class RecommendersController < ApplicationController
     params.require(:recommender).permit(:title, :first_name, :last_name, :job_title, :department,
                                         :provider_email, :provider_name, :email, :category)
   end
-
 end
