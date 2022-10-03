@@ -2,8 +2,8 @@
 import '@hotwired/turbo-rails'
 
 import './components/CategorySelector'
-import './components/CompanyAutocomplete'
 import './components/TableExporter'
+import './components/InstitutionInput'
 import ReactRailsUJS from 'react_ujs'
 document.addEventListener('turbo:before-visit', () => {
   ReactRailsUJS.unmountComponents()

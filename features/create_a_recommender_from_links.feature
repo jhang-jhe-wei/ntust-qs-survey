@@ -8,8 +8,6 @@ Feature: Create a recommender from the link
     And I can see "營建工程系"
     When I select "recommender_category" as "學術界"
     Then I can not see "Industry(產業類別)"
-    And I can not see "Company Name(公司名稱)"
-    And I can not see "Country(所屬國家)"
     When I fill "recommender" form
       | field          | value                                            |
       | provider_name  | 王小明                                           |
@@ -20,7 +18,7 @@ Feature: Create a recommender from the link
       | email          | ymhsieh@mail.ntust.edu.tw                        |
       | job_title       | Professor                                        |
       | department     | Department of Civil and Construction Engineering |
-    And I select "recommender_institution_id" as "National Taiwan University of Science and Technology"
+    And I fill "institution" with "National Taiwan University of Science and Technology"
     And I click "名單提交"
     Then I can see "推薦者已建立"
     And I can ensure "營建工程系" user has these attributes recommender
@@ -52,7 +50,7 @@ Feature: Create a recommender from the link
       | last_name      | Hsieh                     |
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
-    And I fill "company" with "ACER"
+    And I fill "institution" with "ACER"
     And I select "recommender_industry_id" as "Engineering"
     And I select "country" as "Taiwan"
     And I click "名單提交"

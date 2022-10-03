@@ -22,7 +22,7 @@ Feature: Modify pending recommenders
       | last_name      | Hsieh                     |
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
-    And I fill "company" with "ACER"
+    And I fill "institution" with "ACER"
     And I select "recommender_industry_id" as "Engineering"
     And I select "country" as "Taiwan"
     And I click "名單提交"

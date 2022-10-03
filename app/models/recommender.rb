@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Recommender < ApplicationRecord
+class Recommender < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :institution, optional: true
   belongs_to :industry, optional: true
   has_many :user_and_recommender_records, dependent: :destroy
@@ -30,8 +30,16 @@ class Recommender < ApplicationRecord
   delegate :name, to: :institution, prefix: true, allow_nil: true
   delegate :name, to: :industry, prefix: true, allow_nil: true
 
-  def position
-    job_title
+  def committed_on
+    updated_at.strftime('%Y-%m-%d')
+  end
+
+  def exported_on
+    exported_at&.strftime('%Y-%m-%d')
+  end
+
+  def provider_unit
+    users.first.department.name
   end
 
   def location
@@ -84,7 +92,8 @@ class Recommender < ApplicationRecord
   end
   class << self
     def academic_attrs(row)
-      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"])&.id
+      country_id = Country.find_by(name: row["Location\n所處國別"])&.id
+      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"], country_id:)&.id
       common_attrs(row).merge(
         institution_id:,
         department: row["Department\n所屬系所/單位名"],
