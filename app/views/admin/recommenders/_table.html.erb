@@ -21,6 +21,7 @@
           <th scope="col" class="recommender-table-th" >Industry<br>產業類別</th>
         <% end %>
         <th scope="col" class="recommender-table-th" >Institution<br>機構名稱</th>
+        <th scope="col" class="recommender-table-th" >Location<br>所屬國家</th>
         <th scope="col" class="recommender-table-th" >Position<br>稱謂</th>
         <th colspan="3"></th>
       </tr>
@@ -47,6 +48,7 @@
             <td class="recommender-table-td"><%= recommender.industry&.name %></td>
           <% end %>
           <td class="recommender-table-td"><%= recommender.institution&.name %></td>
+          <td class="recommender-table-td"><%= recommender.institution&.country&.name %></td>
           <td class="recommender-table-td"><%= recommender.job_title %></td>
           <td class="recommender-table-td"><% if recommender.pending? %><%= link_to '修改', edit_admin_recommender_path(recommender.id), class: 'text-blue-600 hover:underline' %><% end %></td>
         </tr>
