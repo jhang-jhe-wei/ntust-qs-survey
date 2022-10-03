@@ -84,7 +84,8 @@ class Recommender < ApplicationRecord
   end
   class << self
     def academic_attrs(row)
-      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"])&.id
+      country_id = Country.find_by(name: row["Location\n所處國別"])&.id
+      institution_id = Institution.find_by(name: row["Institution Name\n所屬學校/機構名"], country_id:)&.id
       common_attrs(row).merge(
         institution_id:,
         department: row["Department\n所屬系所/單位名"],
