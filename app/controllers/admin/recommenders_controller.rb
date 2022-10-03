@@ -63,14 +63,14 @@ module Admin
     end
 
     def export
-      recommender = current_user.department.visible_recommenders.is_not_committed.is_done.order_by_update_at
+      recommender = current_user.department.visible_recommenders.is_done.order_by_update_at
       @academic_recommenders = export_json(recommender.is_academic)
       @industry_recommenders = export_json(recommender.is_industry)
     end
 
     def export_csv
       recommenders = current_user.department.visible_recommenders.where(id: params[:ids])
-      recommenders.update_all(is_committed: true) # rubocop:disable Rails/SkipsModelValidations
+      recommenders.update_all(is_committed: true, exported_at: DateTime.now) # rubocop:disable Rails/SkipsModelValidations
       send_data(
         RecommenderExport.new(recommenders, params[:category]).export!,
         filename: "#{Time.zone.today}-export.csv"
@@ -105,7 +105,7 @@ module Admin
         root: false,
         only: %i[id provider_name provider_email title first_name
                  last_name job_title department position email],
-        methods: %i[committed_on provider_unit institution_name industry_name company_name location]
+        methods: %i[committed_on provider_unit institution_name industry_name company_name location exported_on]
       )
     end
   end

@@ -1,5 +1,5 @@
 <div class="container mx-auto mt-4">
-  <%= react_component("TableExporter", {columns: %i[committed_on provider_unit provider_name provider_email title first_name last_name email department job_title institution_name location], data: @academic_recommenders, category: "academic"}) %>
+  <%= react_component("TableExporter", {columns: %i[exported_on committed_on provider_unit provider_name provider_email title first_name last_name email department job_title institution_name location], data: @academic_recommenders, category: "academic"}) %>
 
-  <%= react_component("TableExporter", {columns: %i[committed_on provider_unit provider_name provider_email title first_name last_name job_title industry_name company_name location email], data: @industry_recommenders, category: "industry"}) %>
+  <%= react_component("TableExporter", {columns: %i[exported_on committed_on provider_unit provider_name provider_email title first_name last_name email job_title industry_name company_name location], data: @industry_recommenders, category: "industry"}) %>
 </div>

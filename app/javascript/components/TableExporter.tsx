@@ -16,6 +16,7 @@ type Recommender = {
   location: String;
   email: String;
   Phone: String;
+  exported_on: string;
 }
 
 type TableExporterProps = {
@@ -78,7 +79,12 @@ const TableExporter = (props: TableExporterProps) => {
         .match(/.*filename="(?<filename>.*)".*/)[1];
       FileDownload(response.data, filename);
       setRecommenders(recommenders => (
-        recommenders.filter((_, index) => ( !checkeds[index] ))
+        recommenders.map((recommender, index) => { if(checkeds[index]){
+          recommender.exported_on = filename.match(/\d{4}-\d{2}-\d{2}/)[0]
+        }
+          return recommender;
+
+        })
       ));
       setCheckeds([]);
     }).catch(function (error) {

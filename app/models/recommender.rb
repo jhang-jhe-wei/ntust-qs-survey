@@ -34,6 +34,10 @@ class Recommender < ApplicationRecord
     updated_at.strftime('%Y-%m-%d')
   end
 
+  def exported_on
+    exported_at&.strftime('%Y-%m-%d')
+  end
+
   def provider_unit
     users.first.department.name
   end

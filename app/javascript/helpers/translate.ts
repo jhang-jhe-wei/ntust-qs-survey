@@ -1,5 +1,6 @@
 const map = {
   committed_on: '提報時間',
+  exported_on: '曾匯出於',
   provider_unit: '提報單位',
   provider_name: '提供此名單之教師姓名',
   provider_email: '提供此名單之教師電郵',
