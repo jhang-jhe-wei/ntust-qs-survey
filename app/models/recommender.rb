@@ -30,8 +30,12 @@ class Recommender < ApplicationRecord
   delegate :name, to: :institution, prefix: true, allow_nil: true
   delegate :name, to: :industry, prefix: true, allow_nil: true
 
-  def position
-    job_title
+  def committed_on
+    updated_at.strftime('%Y-%m-%d')
+  end
+
+  def provider_unit
+    users.first.department.name
   end
 
   def location

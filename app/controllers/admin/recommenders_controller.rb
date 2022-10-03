@@ -103,8 +103,9 @@ module Admin
     def export_json(recommenders)
       recommenders.as_json(
         root: false,
-        only: %i[id title first_name last_name job_title department position email],
-        methods: %i[institution_name industry_name company_name location]
+        only: %i[id provider_name provider_email title first_name
+                 last_name job_title department position email],
+        methods: %i[committed_on provider_unit institution_name industry_name company_name location]
       )
     end
   end
