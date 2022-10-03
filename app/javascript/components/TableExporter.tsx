@@ -6,21 +6,21 @@ import axios from 'axios';
 import FileDownload from 'js-file-download';
 
 type Recommender = {
-  id: Number;
-  title: String;
-  firstName: String;
-  lastName: String;
-  jobTitle: String;
-  department: String;
-  institution: String;
-  location: String;
-  email: String;
-  Phone: String;
+  id: number;
+  title: string;
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  department: string;
+  institution: string;
+  location: string;
+  email: string;
+  Phone: string;
   exported_on: string;
 }
 
 type TableExporterProps = {
-  columns: String[];
+  columns: string[];
   data: Recommender[];
   category: "academic" | "industry";
 }
@@ -30,32 +30,29 @@ const TableExporter = (props: TableExporterProps) => {
   const { columns, data, category } = props;
   const [allSelect, setAllSelect] = useState<boolean>(false);
   const [recommenders, setRecommenders] = useState<Recommender[]>(data);
-  const [checkeds, setCheckeds] = useState<boolean[]>(Array(recommenders.length).fill(false));
+  const [ids, setIds] = useState<number[]>([]);
 
   useEffect(()=>{
     if(allSelect){
-      setCheckeds(Array(recommenders.length).fill(true));
+      setIds(recommenders.map(recommender => recommender.id))
     }else{
-      setCheckeds(Array(recommenders.length).fill(false));
+      setIds([])
     }
   }, [allSelect])
 
-  const checkHandler = (index: number): void => {
-    setCheckeds(checkeds => {
-      return [
-        ...checkeds.slice(0, index),
-        !checkeds[index],
-        ...checkeds.slice(index+1)
-      ]
-    })
+  const checkHandler = (id: number): void => {
+    const index = ids.findIndex(ele => ele == id);
+    if(index >= 0) {
+      setIds(ids =>  [
+        ...ids.slice(0, index),
+        ...ids.slice(index+1)
+      ])
+    }else{
+      setIds(ids => {
+        return [...ids, id]
+      })
+    }
   }
-
-  const getIds = (): Number[] => (
-    recommenders.filter((_, index) => ( checkeds[index] )).map(recommender=>(
-      recommender.id
-    ))
-  )
-
   const allSelectHandler = (): void => {
     setAllSelect(state => !state)
   }
@@ -65,7 +62,7 @@ const TableExporter = (props: TableExporterProps) => {
     await axios.post(
       '/admin/recommenders/export',
       {
-        ids: getIds(),
+        ids: ids,
         category: category,
         withCredentials: true
       },
@@ -79,18 +76,28 @@ const TableExporter = (props: TableExporterProps) => {
         .match(/.*filename="(?<filename>.*)".*/)[1];
       FileDownload(response.data, filename);
       setRecommenders(recommenders => (
-        recommenders.map((recommender, index) => { if(checkeds[index]){
+        recommenders.map((recommender) => { if(ids.find(id => id == recommender.id)){
           recommender.exported_on = filename.match(/\d{4}-\d{2}-\d{2}/)[0]
         }
           return recommender;
 
         })
       ));
-      setCheckeds([]);
+      setIds([]);
     }).catch(function (error) {
         // handle error
         console.log(error);
       })
+  }
+
+  const sortRecommenders = (column: string) => {
+    setRecommenders(recommenders => [
+      ...recommenders.sort((a, b) => {
+        if(a[column] > b[column]) return 1;
+        if(a[column] < b[column]) return -1;
+        return 0;
+      })
+    ])
   }
 
   return (
@@ -114,7 +121,12 @@ const TableExporter = (props: TableExporterProps) => {
             </th>
             {
               columns.map(column => (
-                <th key={column.toString()} scope="col" className="recommender-table-th">
+                <th
+                  key={column}
+                  scope="col"
+                  className="recommender-table-th"
+                  onClick={ () => sortRecommenders(column) }
+                >
                   { Translate(column) }
                 </th>
               ))
@@ -123,19 +135,19 @@ const TableExporter = (props: TableExporterProps) => {
         </thead>
         <tbody>
           {
-            recommenders.map((recommender, index) =>(
-              <tr key={recommender.id.toString()} className="border-b odd:bg-white even:bg-gray-50" >
-                <td key={recommender.id.toString()} className="recommender-table-td">
+            recommenders.map((recommender) =>(
+              <tr key={recommender.id} className="border-b odd:bg-white even:bg-gray-50" >
+                <td key={recommender.id} className="recommender-table-td">
                   <input
                     type="checkbox"
-                    onChange={ ()=>{ checkHandler(index) } }
-                    checked={ checkeds[index] }
+                    onChange={ () => checkHandler(recommender.id) }
+                    checked={ !!ids.find(id => id == recommender.id) }
                   />
                 </td>
               {
                 columns.map(column => (
-                  <td key={column.toString()} className="recommender-table-td">
-                    {recommender[column.toString()]}
+                  <td key={column} className="recommender-table-td">
+                    {recommender[column]}
                   </td>
                 ))
               }
