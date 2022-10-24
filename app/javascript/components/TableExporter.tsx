@@ -125,7 +125,7 @@ const TableExporter = (props: TableExporterProps) => {
                 <th
                   key={column}
                   scope="col"
-                  className="recommender-table-th"
+                  className="cursor-pointer recommender-table-th"
                   onClick={ () => sortRecommenders(column) }
                 >
                   { Translate(column) }
