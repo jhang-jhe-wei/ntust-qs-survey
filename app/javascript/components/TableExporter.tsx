@@ -107,6 +107,7 @@ const TableExporter = (props: TableExporterProps) => {
         <span className="text-red-700">
           { recommenders.length }
         </span> 筆
+        <span className="text-sm text-red-700">(點選「欄位標題」可將資料依序排列)</span>
       </p>
     <div className="mb-5 overflow-x-auto shadow-md">
       <table className="w-full text-sm text-left text-gray-500">
@@ -124,7 +125,7 @@ const TableExporter = (props: TableExporterProps) => {
                 <th
                   key={column}
                   scope="col"
-                  className="recommender-table-th"
+                  className="cursor-pointer recommender-table-th"
                   onClick={ () => sortRecommenders(column) }
                 >
                   { Translate(column) }
