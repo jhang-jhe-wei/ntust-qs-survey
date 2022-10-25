@@ -93,6 +93,8 @@ const TableExporter = (props: TableExporterProps) => {
   const sortRecommenders = (column: string) => {
     setRecommenders(recommenders => [
       ...recommenders.sort((a, b) => {
+        if (a[column] === null) return 1;
+        if (b[column] === null) return -1;
         if(a[column] > b[column]) return 1;
         if(a[column] < b[column]) return -1;
         return 0;
