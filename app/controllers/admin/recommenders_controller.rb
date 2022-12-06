@@ -41,7 +41,7 @@ module Admin
 
     def destroy
       @recommender.destroy
-      redirect_to admin_recommenders_path, notice: '已成功刪除該推薦人'
+      redirect_back_or_to admin_recommenders_url, notice: '已成功刪除該推薦人'
     end
 
     def share; end
