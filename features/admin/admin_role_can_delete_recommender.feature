@@ -17,6 +17,5 @@ Feature: Review recommenders
     And there are 1 pending recommenders belong to "校務研究與發展中心" user
     When I visit "/admin/recommenders/upload"
     And I click "刪除" with confirmation
-    Then I can see "產業界名單，共計 0 筆"
-    And I can see "已成功刪除該推薦人"
+    Then I can see "已成功刪除該推薦人"
 
