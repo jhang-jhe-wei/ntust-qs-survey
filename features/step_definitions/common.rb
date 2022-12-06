@@ -47,7 +47,13 @@ Then('I can not see {string}') do |text|
 end
 
 When('I click {string}') do |label|
-  click_on(label)
+  click_link_or_button(label)
+end
+
+When('I click {string} with confirmation') do |label|
+  accept_confirm do
+    click_link_or_button(label)
+  end
 end
 
 When('I select {string} as {string}') do |label, option|
