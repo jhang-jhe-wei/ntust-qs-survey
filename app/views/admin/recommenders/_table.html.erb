@@ -51,7 +51,7 @@
           <td class="recommender-table-td"><%= recommender.institution&.country&.name %></td>
           <td class="recommender-table-td"><%= recommender.job_title %></td>
           <td class="recommender-table-td"><% if recommender.pending? %><%= link_to '修改', edit_admin_recommender_path(recommender.id), class: 'text-blue-600 hover:underline' %><% end %></td>
-          <td class="recommender-table-td"><% if current_user.department.admin? %><%= button_to '刪除', admin_recommender_path(recommender.id), class: 'text-red-600 hover:underline',  form: { data: { turbo_confirm: "你確定要刪除此推薦人嗎？" } }, method: :delete  %><% end %></td>
+          <td class="recommender-table-td"><% if current_user.department.admin? && current_user.department.name == '校務研究與發展中心' %><%= button_to '刪除', admin_recommender_path(recommender.id), class: 'text-red-600 hover:underline',  form: { data: { turbo_confirm: "你確定要刪除此推薦人嗎？" } }, method: :delete  %><% end %></td>
         </tr>
       <% end %>
     </tbody>
