@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :recommenders, only: %i[new create]
   namespace :admin do
     root to: 'recommenders#index'
-    resources :recommenders, only: %i[index new create update edit] do
+    resources :recommenders, only: %i[index new create update edit destroy] do
       collection do
         get 'share'
         get 'upload', to: 'recommenders#upload'
