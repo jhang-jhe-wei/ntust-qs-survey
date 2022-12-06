@@ -2,7 +2,7 @@
 
 module Admin
   class RecommendersController < Admin::BaseController
-    before_action :set_recommender, only: %i[edit update]
+    before_action :set_recommender, only: %i[edit update destroy]
 
     def index
       @department = NtustDepartment.find_by(id: params[:department_id]) || current_user.department
@@ -37,6 +37,11 @@ module Admin
       else
         render :new, status: :unprocessable_entity
       end
+    end
+
+    def destroy
+      @recommender.destroy
+      redirect_back_or_to admin_recommenders_url, notice: '已成功刪除該推薦人'
     end
 
     def share; end
