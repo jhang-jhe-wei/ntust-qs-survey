@@ -51,7 +51,7 @@ Feature: Create a recommender from the link
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
     And I fill "institution" with "ACER"
-    And I select "recommender_industry_id" as "Engineering"
+    And I select "recommender_industry_id" as "Manufacturing"
     And I select "country" as "Taiwan"
     And I click "名單提交"
     Then I can see "推薦者已建立"
@@ -66,6 +66,6 @@ Feature: Create a recommender from the link
       | job_title      | Manager                   |
       | category       | 產業界                    |
     And I can ensure "機械工程系" user has the recommender whose "institution" is "ACER"
-    And I can ensure "機械工程系" user has the recommender whose "industry" is "Engineering"
+    And I can ensure "機械工程系" user has the recommender whose "industry" is "Manufacturing"
 
 
