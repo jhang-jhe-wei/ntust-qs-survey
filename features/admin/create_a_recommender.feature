@@ -50,7 +50,7 @@ Feature: Create a recommender
       | email          | ymhsieh@mail.ntust.edu.tw |
       | job_title      | Manager                   |
     And I fill "institution" with "National Taiwan University of Science and Technology"
-    And I select "recommender_industry_id" as "Engineering"
+    And I select "recommender_industry_id" as "Manufacturing"
     And I select "country" as "Taiwan"
     And I click "名單提交"
     Then I can see "推薦者已建立"
@@ -65,5 +65,5 @@ Feature: Create a recommender
       | job_title      | Manager                   |
       | category       | 產業界                    |
     And I can ensure the recommender's "institution" is "National Taiwan University of Science and Technology"
-    And I can ensure the recommender's "industry" is "Engineering"
+    And I can ensure the recommender's "industry" is "Manufacturing"
 
